@@ -581,7 +581,7 @@ There are 1 folder :
 
 **7. CreatePoll**
 
-- [`interactive-live-streaming/components/pollContainer/CreatePoll.js`](https://github.com/videosdk-live/videosdk-hls-react-sdk-example/blob/main/src/interactive-live-streaming/components/pollContainer/CreatePoll.jss)
+- [`interactive-live-streaming/components/pollContainer/CreatePoll.js`](https://github.com/videosdk-live/videosdk-hls-react-sdk-example/blob/main/src/interactive-live-streaming/components/pollContainer/CreatePoll.js)
 
   - It has a text field to ask poll question, another text field where you can add your options, a checkbox to mark correct option and option to set timer.
   - In the bottom you can see save and launch button. If you click on save then your poll will be saved as a draft in the poll list and you can launch this draft poll any time during live streaming.
