@@ -493,7 +493,7 @@ There are 1 folder :
 
 **5. ParticipantList**
 
-[`sidebar/ParticipantPanel.js`](https://github.com/videosdk-live/videosdk-rtc-hls-sdk-example/blob/main/src/components/sidebar/ParticipantPanel.js) - This file is used to show the list of participants present in the meeting.
+[`sidebar/ParticipantPanel.js`](https://github.com/videosdk-live/videosdk-hls-react-sdk-example/blob/main/src/components/sidebar/ParticipantPanel.js) - This file is used to show the list of participants present in the meeting.
 
 <p align="center">
 <img width="600" height="338" src="public/participant_list.gif"/>
