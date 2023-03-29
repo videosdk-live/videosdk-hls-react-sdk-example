@@ -569,7 +569,7 @@ There are 1 folder :
 
 **5. HLSContainer**
 
-- [`interactive-live-streaming/components/hlsViewContainer/HLSContainer.js`](https://github.com/videosdk-live/videosdk-rtc-hls-sdk-example/blob/main/src/interactive-live-streaming/components/hlsViewContainer/HLSContainer.js) - It contains the `PlayerViewer` component with `react-motion`.
+- [`interactive-live-streaming/components/hlsViewContainer/HLSContainer.js`](https://github.com/videosdk-live/videosdk-hls-react-sdk-example/blob/main/src/interactive-live-streaming/components/hlsViewContainer/HLSContainer.js) - It contains the `PlayerViewer` component with `react-motion`.
 
 **6. PlayerViewer**
 
