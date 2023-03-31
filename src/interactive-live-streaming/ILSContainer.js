@@ -39,7 +39,6 @@ export function ILSContainer({
   setMeetingMode,
 }) {
   const {
-    setDownstreamUrl,
     setAfterMeetingJoinedHLSState,
     useRaisedHandParticipants,
     sideBarMode,
@@ -148,17 +147,6 @@ export function ILSContainer({
           progress: undefined,
           theme: "light",
         }
-      );
-    }
-
-    if (
-      data.status === Constants.hlsEvents.HLS_STARTED ||
-      data.status === Constants.hlsEvents.HLS_STOPPED
-    ) {
-      setDownstreamUrl(
-        data.status === Constants.hlsEvents.HLS_STARTED
-          ? data.downstreamUrl
-          : null
       );
     }
 

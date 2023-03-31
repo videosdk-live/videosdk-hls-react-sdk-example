@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Lottie from "lottie-react";
 import animationData from "../../../static/animations/wait_for_HLS_animation.json";
 import stoppedHLSSnimationData from "../../../static/animations/stopped_HLS_animation.json";
@@ -7,6 +7,7 @@ import useIsMobile from "../../../hooks/useIsMobile";
 import useIsTab from "../../../hooks/useIsTab";
 import { useMediaQuery } from "react-responsive";
 import { useMeetingAppContext } from "../../../MeetingAppContextDef";
+import { Constants, useMeeting } from "@videosdk.live/react-sdk";
 
 export async function sleep(ms) {
   return new Promise((resolve) => {
@@ -15,14 +16,22 @@ export async function sleep(ms) {
 }
 
 const PlayerViewer = () => {
-  const { downstreamUrl, afterMeetingJoinedHLSState } = useMeetingAppContext();
-  const [canPlay, setCanPlay] = useState(false);
+  const { afterMeetingJoinedHLSState } = useMeetingAppContext();
+  const { hlsUrls, hlsState } = useMeeting();
   const playerRef = useRef();
 
   const isMobile = useIsMobile();
   const isTab = useIsTab();
   const isLGDesktop = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isXLDesktop = useMediaQuery({ minWidth: 1440 });
+
+  const playHls = useMemo(() => {
+    return (
+      hlsUrls.downstreamUrl &&
+      (hlsState == Constants.hlsEvents.HLS_PLAYABLE ||
+        hlsState == Constants.hlsEvents.HLS_STOPPING)
+    );
+  }, [hlsUrls, hlsState]);
 
   const lottieSize = isMobile
     ? 180
@@ -34,62 +43,8 @@ const PlayerViewer = () => {
     ? 240
     : 160;
 
-  async function waitForHLSPlayable(downstreamUrl, maxRetry) {
-    return new Promise(async (resolve, reject) => {
-      if (maxRetry < 1) {
-        return reject(false);
-      }
-
-      let status;
-
-      try {
-        const res = await fetch(downstreamUrl, {
-          method: "GET",
-        });
-        status = res.status;
-      } catch (err) {}
-
-      if (status === 200) {
-        return resolve(true);
-      }
-
-      await sleep(1000);
-
-      return resolve(
-        await waitForHLSPlayable(downstreamUrl, maxRetry - 1).catch((err) => {})
-      );
-    });
-  }
-
-  const checkHLSPlayable = async (downstreamUrl) => {
-    const canPlay = await waitForHLSPlayable(downstreamUrl, 20);
-
-    if (canPlay) {
-      setCanPlay(true);
-    } else {
-      setCanPlay(false);
-    }
-  };
-
-  useEffect(async () => {
-    if (downstreamUrl) {
-      const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-          preserveAspectRatio: "xMidYMid slice",
-        },
-      };
-
-      checkHLSPlayable(downstreamUrl);
-    } else {
-      setCanPlay(false);
-    }
-  }, [downstreamUrl]);
-
   useEffect(() => {
-    if (downstreamUrl && canPlay) {
+    if (playHls) {
       if (Hls.isSupported()) {
         const hls = new Hls({
           capLevelToPlayerSize: true,
@@ -101,7 +56,7 @@ const PlayerViewer = () => {
 
         let player = document.querySelector("#hlsPlayer");
 
-        hls.loadSource(downstreamUrl);
+        hls.loadSource(hlsUrls.downstreamUrl);
         hls.attachMedia(player);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {});
         hls.on(Hls.Events.ERROR, function (err) {
@@ -109,21 +64,21 @@ const PlayerViewer = () => {
         });
       } else {
         if (typeof playerRef.current?.play === "function") {
-          playerRef.current.src = downstreamUrl;
+          playerRef.current.src = hlsUrls.downstreamUrl;
           playerRef.current.play();
         }
         // console.error("HLS is not supported");
       }
     }
-  }, [downstreamUrl, canPlay]);
+  }, [playHls]);
 
   return (
     <div
       className={`h-full w-full ${
-        downstreamUrl && canPlay ? "bg-gray-800" : "bg-gray-750"
+        playHls ? "bg-gray-800" : "bg-gray-750"
       } relative overflow-hidden rounded-lg`}
     >
-      {downstreamUrl && canPlay ? (
+      {playHls ? (
         <div className="flex flex-col  items-center justify-center absolute top-0 left-0 bottom-0 right-0">
           <video
             ref={playerRef}
