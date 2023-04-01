@@ -62,7 +62,7 @@ git clone https://github.com/videosdk-live/videosdk-hls-react-sdk-example.git
 Open your favorite code editor and copy `.env.example` to `.env` file.
 
 ```bash
-cp .env.example.env;
+cp .env.example .env;
 ```
 
 ### Step 3: Modify .env file
