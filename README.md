@@ -115,10 +115,6 @@ Token is used to create and validate a meeting using API and also initialise a m
 
 - You must set up an authentication server to authorise users for production. To set up an authentication server, refer to our official example repositories. [videosdk-rtc-api-server-examples](https://github.com/videosdk-live/videosdk-rtc-api-server-examples)
 
-> **Note** :
->
-> Development environment tokens have a 7-day expiration period.
-
 <br/>
 
 ## API: Create and Validate meeting
