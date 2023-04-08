@@ -83,7 +83,7 @@ npm install
 
 ### Step 5: Run the Sample App
 
-Bingo, it's time to push the launch button.
+Bingo, it's time to run the project.
 
 ```js
 npm run start
