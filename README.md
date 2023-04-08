@@ -54,15 +54,15 @@ Check out demo [here](https://videosdk.live/prebuilt/demo)
 Clone the repository to your local environment.
 
 ```js
-git clone https://github.com/videosdk-live/videosdk-rtc-react-sdk-example.git
+git clone https://github.com/videosdk-live/videosdk-hls-react-sdk-example.git
 ```
 
 ### Step 2: Copy the .env.example file to .env file.
 
 Open your favorite code editor and copy `.env.example` to `.env` file.
 
-```js
-cp.env.example.env;
+```bash
+cp .env.example .env;
 ```
 
 ### Step 3: Modify .env file
@@ -114,10 +114,6 @@ Token is used to create and validate a meeting using API and also initialise a m
 🌐 `Production Environment`:
 
 - You must set up an authentication server to authorise users for production. To set up an authentication server, refer to our official example repositories. [videosdk-rtc-api-server-examples](https://github.com/videosdk-live/videosdk-rtc-api-server-examples)
-
-> **Note** :
->
-> Development environment tokens have a 7-day expiration period.
 
 <br/>
 

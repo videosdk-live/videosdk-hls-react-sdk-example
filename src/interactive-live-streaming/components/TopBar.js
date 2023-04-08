@@ -153,7 +153,8 @@ export function TopBar({ topBarHeight }) {
       <MobileIconButton
         onClick={_handleClick}
         tooltipTitle={
-          hlsState === Constants.hlsEvents.HLS_STARTED
+          hlsState === Constants.hlsEvents.HLS_STARTED ||
+          hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
             ? "Starting HLS"
@@ -165,7 +166,8 @@ export function TopBar({ topBarHeight }) {
         }
         Icon={LiveIcon}
         buttonText={
-          hlsState === Constants.hlsEvents.HLS_STARTED
+          hlsState === Constants.hlsEvents.HLS_STARTED ||
+          hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
             ? "Starting HLS"
@@ -183,7 +185,8 @@ export function TopBar({ topBarHeight }) {
       <OutlineIconTextButton
         onClick={_handleClick}
         tooltipTitle={
-          hlsState === Constants.hlsEvents.HLS_STARTED
+          hlsState === Constants.hlsEvents.HLS_STARTED ||
+          hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
             ? "Starting HLS"
@@ -194,7 +197,8 @@ export function TopBar({ topBarHeight }) {
             : "Start HLS"
         }
         buttonText={
-          hlsState === Constants.hlsEvents.HLS_STARTED
+          hlsState === Constants.hlsEvents.HLS_STARTED ||
+          hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
             ? "Starting HLS"
