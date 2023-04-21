@@ -80,16 +80,17 @@ export function ILSContainer({
     : 240;
 
   useEffect(() => {
-    const boundingRect = containerRef.current.getBoundingClientRect();
-    const { width, height } = boundingRect;
+    containerRef.current?.offsetHeight &&
+      setContainerHeight(containerRef.current.offsetHeight);
+    containerRef.current?.offsetWidth &&
+      setContainerWidth(containerRef.current.offsetWidth);
 
-    if (height !== containerHeightRef.current) {
-      setContainerHeight(height);
-    }
-
-    if (width !== containerWidthRef.current) {
-      setContainerWidth(width);
-    }
+    window.addEventListener("resize", ({ target }) => {
+      containerRef.current?.offsetHeight &&
+        setContainerHeight(containerRef.current.offsetHeight);
+      containerRef.current?.offsetWidth &&
+        setContainerWidth(containerRef.current.offsetWidth);
+    });
   }, [containerRef]);
 
   const { participantRaisedHand } = useRaisedHandParticipants();
@@ -315,105 +316,107 @@ export function ILSContainer({
   });
 
   return (
-    <div
-      // style={{ height: windowHeight }}
-      ref={containerRef}
-      className="h-screen flex flex-col bg-gray-800"
-    >
-      <FlyingEmojisOverlay />
-      {typeof localParticipantAllowedJoin === "boolean" ? (
-        localParticipantAllowedJoin ? (
-          <>
-            <ModeListner
-              setMeetingMode={setMeetingMode}
-              meetingMode={meetingMode}
-            />
-            <PollsListner />
-
-            {mMeeting?.localParticipant?.id && (
-              <LocalParticipantListner
-                localParticipantId={mMeeting?.localParticipant?.id}
+    <div className="fixed inset-0">
+      <div ref={containerRef} className="h-full flex flex-col bg-gray-800">
+        <FlyingEmojisOverlay />
+        {typeof localParticipantAllowedJoin === "boolean" ? (
+          localParticipantAllowedJoin ? (
+            <>
+              <ModeListner
+                setMeetingMode={setMeetingMode}
                 meetingMode={meetingMode}
               />
-            )}
-            {meetingMode === Constants.modes.CONFERENCE &&
-              (isMobile || isTab ? (
-                <></>
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: isTab || isMobile ? "" : "column",
-                    height: topBarHeight,
-                  }}
-                >
-                  <TopBar topBarHeight={topBarHeight} />
-                </div>
-              ))}
+              <PollsListner />
 
-            <div className={` flex flex-1 flex-row bg-gray-800 `}>
-              {meetingMode === Constants.modes.CONFERENCE ? (
-                <div className={`flex flex-1 `}>
-                  {isPresenting ? (
-                    <PresenterView
-                      height={containerHeight - topBarHeight - bottomBarHeight}
-                    />
-                  ) : null}
-                  {isPresenting && isMobile ? null : (
-                    <MemorizedILSParticipantView isPresenting={isPresenting} />
-                  )}
-                </div>
-              ) : (
-                <HLSContainer
-                  {...{
-                    width:
-                      containerWidth -
-                      (isTab || isMobile
-                        ? 0
-                        : typeof sideBarMode === "string"
-                        ? sideBarContainerWidth
-                        : 0),
-                  }}
+              {mMeeting?.localParticipant?.id && (
+                <LocalParticipantListner
+                  localParticipantId={mMeeting?.localParticipant?.id}
+                  meetingMode={meetingMode}
                 />
               )}
-              <SidebarConatiner
-                height={
-                  meetingMode === Constants.modes.VIEWER
-                    ? containerHeight - bottomBarHeight
-                    : isMobile || isTab
-                    ? containerHeight - bottomBarHeight
-                    : containerHeight - topBarHeight - bottomBarHeight
-                }
-                sideBarContainerWidth={sideBarContainerWidth}
+              {meetingMode === Constants.modes.CONFERENCE &&
+                (isMobile || isTab ? (
+                  <></>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: isTab || isMobile ? "" : "column",
+                      height: topBarHeight,
+                    }}
+                  >
+                    <TopBar topBarHeight={topBarHeight} />
+                  </div>
+                ))}
+
+              <div className={` flex flex-1 flex-row bg-gray-800 `}>
+                {meetingMode === Constants.modes.CONFERENCE ? (
+                  <div className={`flex flex-1 `}>
+                    {isPresenting ? (
+                      <PresenterView
+                        height={
+                          containerHeight - topBarHeight - bottomBarHeight
+                        }
+                      />
+                    ) : null}
+                    {isPresenting && isMobile ? null : (
+                      <MemorizedILSParticipantView
+                        isPresenting={isPresenting}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <HLSContainer
+                    {...{
+                      width:
+                        containerWidth -
+                        (isTab || isMobile
+                          ? 0
+                          : typeof sideBarMode === "string"
+                          ? sideBarContainerWidth
+                          : 0),
+                    }}
+                  />
+                )}
+                <SidebarConatiner
+                  height={
+                    meetingMode === Constants.modes.VIEWER
+                      ? containerHeight - bottomBarHeight
+                      : isMobile || isTab
+                      ? containerHeight - bottomBarHeight
+                      : containerHeight - topBarHeight - bottomBarHeight
+                  }
+                  sideBarContainerWidth={sideBarContainerWidth}
+                  meetingMode={meetingMode}
+                />
+              </div>
+
+              <ILSBottomBar
+                bottomBarHeight={bottomBarHeight}
+                setIsMeetingLeft={setIsMeetingLeft}
+                selectWebcamDeviceId={selectWebcamDeviceId}
+                setSelectWebcamDeviceId={setSelectWebcamDeviceId}
+                selectMicDeviceId={selectMicDeviceId}
+                setSelectMicDeviceId={setSelectMicDeviceId}
                 meetingMode={meetingMode}
               />
-            </div>
-
-            <ILSBottomBar
-              bottomBarHeight={bottomBarHeight}
-              setIsMeetingLeft={setIsMeetingLeft}
-              selectWebcamDeviceId={selectWebcamDeviceId}
-              setSelectWebcamDeviceId={setSelectWebcamDeviceId}
-              selectMicDeviceId={selectMicDeviceId}
-              setSelectMicDeviceId={setSelectMicDeviceId}
-              meetingMode={meetingMode}
-            />
-          </>
+            </>
+          ) : (
+            <></>
+          )
         ) : (
-          <></>
-        )
-      ) : (
-        !mMeeting.isMeetingJoined && <WaitingToJoinScreen />
-      )}
-      <ConfirmBox
-        open={meetingErrorVisible}
-        successText="OKAY"
-        onSuccess={() => {
-          setMeetingErrorVisible(false);
-        }}
-        title={`Error Code: ${meetingError.code}`}
-        subTitle={meetingError.message}
-      />
+          !mMeeting.isMeetingJoined && <WaitingToJoinScreen />
+        )}
+        <ConfirmBox
+          open={meetingErrorVisible}
+          successText="OKAY"
+          onSuccess={() => {
+            setMeetingErrorVisible(false);
+          }}
+          title={`Error Code: ${meetingError.code}`}
+          subTitle={meetingError.message}
+        />
+      </div>
     </div>
   );
 }

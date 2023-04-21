@@ -917,7 +917,7 @@ export function ILSBottomBar({
             leaveTo="translate-y-full opacity-0 scale-95"
           >
             <div className="fixed inset-0 overflow-y-hidden">
-              <div className="flex h-screen items-end justify-end text-center">
+              <div className="flex h-full items-end justify-end text-center">
                 <Dialog.Panel className="w-screen transform overflow-hidden bg-gray-800 shadow-xl transition-all">
                   <div className="grid container bg-gray-800 py-6">
                     <div className="grid grid-cols-12 gap-2">
