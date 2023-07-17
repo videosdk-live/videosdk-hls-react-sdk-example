@@ -25,13 +25,24 @@ const App = () => {
     "only screen and (max-width: 768px)"
   ).matches;
 
-  useEffect(() => {
-    if (isMobile) {
-      window.onbeforeunload = () => {
-        return "Are you sure you want to exit?";
-      };
-    }
-  }, [isMobile]);
+
+  // This can be useful in scenarios where you no longer want to show the confirmation message, 
+//such as when the component unmounts or when the isMobile condition is no longer met.
+ useEffect(() => {
+  const handleBeforeUnload = () => {
+    return "Are you sure you want to exit?";
+  };
+
+  if (isMobile) {
+    window.onbeforeunload = handleBeforeUnload;
+  } else {
+    window.onbeforeunload = null;
+  }
+
+  return () => {
+    window.onbeforeunload = null;
+  };
+}, [isMobile]);
 
   return (
     <>
