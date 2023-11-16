@@ -160,7 +160,7 @@ const OutlineIconTextButton = ({
         style={{ zIndex: 999 }}
         className={`${
           tooltipShow ? "" : "hidden"
-        } overflow-hidden flex flex-col items-center justify-center pt-1`}
+        } overflow-hidden flex flex-col items-center justify-center pt-1 whitespace-pre-line`}
         ref={tooltipRef}
       >
         <div className={"rounded-md p-1.5 bg-black "}>

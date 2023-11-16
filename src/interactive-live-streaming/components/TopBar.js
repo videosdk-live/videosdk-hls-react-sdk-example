@@ -187,14 +187,14 @@ export function TopBar({ topBarHeight }) {
         tooltipTitle={
           hlsState === Constants.hlsEvents.HLS_STARTED ||
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
-            ? "Stop HLS"
+            ? "Stop \nHLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
+            ? "Starting \nHLS"
             : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
+            ? "Start \nHLS"
             : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+            ? "Stopping \nHLS"
+            : "Start \nHLS"
         }
         buttonText={
           hlsState === Constants.hlsEvents.HLS_STARTED ||

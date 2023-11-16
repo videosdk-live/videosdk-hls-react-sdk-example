@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <ToastContainer
       toastClassName={() =>
         "relative flex py-4 px-3 rounded overflow-hidden cursor-pointer bg-white shadow-lg"
@@ -25,6 +25,6 @@ ReactDOM.render(
       theme="light"
     />
     <App />
-  </React.StrictMode>,
+  </>,
   document.getElementById("root")
 );

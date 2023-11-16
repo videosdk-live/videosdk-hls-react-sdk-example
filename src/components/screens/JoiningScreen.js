@@ -255,18 +255,35 @@ export function JoiningScreen({
   useEffect(() => {
     videoTrackRef.current = videoTrack;
 
+    var isPlaying =
+      videoPlayerRef.current.currentTime > 0 &&
+      !videoPlayerRef.current.paused &&
+      !videoPlayerRef.current.ended &&
+      videoPlayerRef.current.readyState >
+        videoPlayerRef.current.HAVE_CURRENT_DATA;
+
     if (videoTrack) {
       const videoSrcObject = new MediaStream([videoTrack]);
 
       if (videoPlayerRef.current) {
         videoPlayerRef.current.srcObject = videoSrcObject;
-        videoPlayerRef.current.play();
+        if (videoPlayerRef.current.pause && !isPlaying) {
+          try {
+            videoPlayerRef.current.play();
+          } catch (err) {
+            console.log("error in playing video", err);
+          }
+        }
       }
 
       setTimeout(() => {
         if (popupVideoPlayerRef.current) {
           popupVideoPlayerRef.current.srcObject = videoSrcObject;
-          popupVideoPlayerRef.current.play();
+          try {
+            popupVideoPlayerRef.current.play();
+          } catch (err) {
+            console.log("error in playing video", err);
+          }
         }
       }, 1000);
     } else {

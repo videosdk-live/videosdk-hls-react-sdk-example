@@ -544,7 +544,7 @@ export function ILSBottomBar({
           );
         }}
         isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
-        tooltip={"View Participants"}
+        tooltip={"View \nParticipants"}
         badge={`${new Map(participants)?.size}`}
         disabled={meetingMode === Constants.modes.VIEWER}
       />
