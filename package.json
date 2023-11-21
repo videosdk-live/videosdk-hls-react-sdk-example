@@ -21,6 +21,10 @@
     "react-toastify": "^9.1.3",
     "web-vitals": "^2.1.4"
   },
+  "overrides": {
+    "nth-check": "2.1.1",
+    "postcss": "^8.4.31"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
