@@ -27,7 +27,7 @@ const PlayerViewer = () => {
 
   const playHls = useMemo(() => {
     return (
-      hlsUrls.downstreamUrl &&
+      hlsUrls.playbackHlsUrl &&
       (hlsState == Constants.hlsEvents.HLS_PLAYABLE ||
         hlsState == Constants.hlsEvents.HLS_STOPPING)
     );
@@ -36,12 +36,12 @@ const PlayerViewer = () => {
   const lottieSize = isMobile
     ? 180
     : isTab
-      ? 180
-      : isLGDesktop
-        ? 240
-        : isXLDesktop
-          ? 240
-          : 160;
+    ? 180
+    : isLGDesktop
+    ? 240
+    : isXLDesktop
+    ? 240
+    : 160;
 
   useEffect(() => {
     if (playHls) {
@@ -57,7 +57,7 @@ const PlayerViewer = () => {
           highBufferWatchdogPeriod: 0, // if media element is expected to play and if currentTime has not moved for more than highBufferWatchdogPeriod and if there are more than maxBufferHole seconds buffered upfront, hls.js will jump buffer gaps, or try to nudge playhead to recover playback.
           nudgeOffset: 0.05, // In case playback continues to stall after first playhead nudging, currentTime will be nudged evenmore following nudgeOffset to try to restore playback. media.currentTime += (nb nudge retry -1)*nudgeOffset
           nudgeMaxRetry: 1, // Max nb of nudge retries before hls.js raise a fatal BUFFER_STALLED_ERROR
-          maxFragLookUpTolerance: .1, // This tolerance factor is used during fragment lookup. 
+          maxFragLookUpTolerance: 0.1, // This tolerance factor is used during fragment lookup.
           liveSyncDurationCount: 1, // if set to 3, playback will start from fragment N-3, N being the last fragment of the live playlist
           abrEwmaFastLive: 1, // Fast bitrate Exponential moving average half-life, used to compute average bitrate for Live streams.
           abrEwmaSlowLive: 3, // Slow bitrate Exponential moving average half-life, used to compute average bitrate for Live streams.
@@ -68,15 +68,15 @@ const PlayerViewer = () => {
 
         let player = document.querySelector("#hlsPlayer");
 
-        hls.loadSource(hlsUrls.downstreamUrl);
+        hls.loadSource(hlsUrls.playbackHlsUrl);
         hls.attachMedia(player);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () { });
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {});
         hls.on(Hls.Events.ERROR, function (err) {
           console.log(err);
         });
       } else {
         if (typeof playerRef.current?.play === "function") {
-          playerRef.current.src = hlsUrls.downstreamUrl;
+          playerRef.current.src = hlsUrls.playbackHlsUrl;
           playerRef.current.play();
         }
         // console.error("HLS is not supported");
@@ -86,8 +86,9 @@ const PlayerViewer = () => {
 
   return (
     <div
-      className={`h-full w-full ${playHls ? "bg-gray-800" : "bg-gray-750"
-        } relative overflow-hidden rounded-lg`}
+      className={`h-full w-full ${
+        playHls ? "bg-gray-800" : "bg-gray-750"
+      } relative overflow-hidden rounded-lg`}
     >
       {playHls ? (
         <div className="flex flex-col  items-center justify-center absolute top-0 left-0 bottom-0 right-0">
