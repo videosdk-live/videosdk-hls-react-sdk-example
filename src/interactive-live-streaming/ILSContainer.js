@@ -16,7 +16,6 @@ import HLSContainer from "./components/hlsViewContainer/HLSContainer";
 import FlyingEmojisOverlay from "./components/FlyingEmojisOverlay";
 import MemorizedILSParticipantView from "./components/ILSParticipantView";
 import WaitingToJoinScreen from "../components/screens/WaitingToJoinScreen";
-import LocalParticipantListner from "./components/LocalParticipantListner";
 import ConfirmBox from "../components/ConfirmBox";
 import useIsMobile from "../hooks/useIsMobile";
 import { useMediaQuery } from "react-responsive";
@@ -328,12 +327,6 @@ export function ILSContainer({
               />
               <PollsListner />
 
-              {mMeeting?.localParticipant?.id && (
-                <LocalParticipantListner
-                  localParticipantId={mMeeting?.localParticipant?.id}
-                  meetingMode={meetingMode}
-                />
-              )}
               {meetingMode === Constants.modes.CONFERENCE &&
                 (isMobile || isTab ? (
                   <></>
