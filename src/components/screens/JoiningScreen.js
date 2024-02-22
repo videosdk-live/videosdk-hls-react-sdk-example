@@ -151,23 +151,28 @@ export function JoiningScreen({
 
   const getDefaultMediaTracks = async ({ mic, webcam, firstTime }) => {
     if (mic) {
-      const audioConstraints = {
-        audio: true,
-      };
-
-      const stream = await navigator.mediaDevices.getUserMedia(
-        audioConstraints
-      );
-      const audioTracks = stream.getAudioTracks();
-
-      const audioTrack = audioTracks.length ? audioTracks[0] : null;
-
-      setAudioTrack(audioTrack);
-      if (firstTime) {
-        setSelectedMic({
-          id: audioTrack?.getSettings()?.deviceId,
-        });
+      try {
+        const audioConstraints = {
+          audio: true,
+        };
+  
+        const stream = await navigator.mediaDevices.getUserMedia(
+          audioConstraints
+        );
+        const audioTracks = stream.getAudioTracks();
+  
+        const audioTrack = audioTracks.length ? audioTracks[0] : null;
+  
+        setAudioTrack(audioTrack);
+        if (firstTime) {
+          setSelectedMic({
+            id: audioTrack?.getSettings()?.deviceId,
+          });
+        }
+      } catch (error) {
+        console.log("Failed to access microphone", error);
       }
+     
     }
 
     if (webcam) {
@@ -234,15 +239,19 @@ export function JoiningScreen({
   };
 
   useEffect(() => {
-    audioTrackRef.current = audioTrack;
+    try {
+      audioTrackRef.current = audioTrack;
 
-    startMuteListener();
+      startMuteListener();
 
-    return () => {
-      const currentAudioTrack = audioTrackRef.current;
-      currentAudioTrack && currentAudioTrack.stop();
-      audioTrackRef.current = null;
-    };
+      return () => {
+        const currentAudioTrack = audioTrackRef.current;
+        currentAudioTrack && currentAudioTrack.stop();
+        audioTrackRef.current = null;
+      };
+    } catch (error) {
+      console.log("Error in audio track", error);
+    }
   }, [audioTrack]);
 
   useEffect(() => {
