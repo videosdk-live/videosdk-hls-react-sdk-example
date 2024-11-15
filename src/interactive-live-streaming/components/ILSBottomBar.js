@@ -9,8 +9,8 @@ import {
   ClipboardIcon,
   CheckIcon,
   ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@heroicons/react/outline";
+  AdjustmentsVerticalIcon,
+} from "@heroicons/react/24/outline";
 import recordingBlink from "../../static/animations/recording-blink.json";
 import liveHLS from "../../static/animations/live-hls.json";
 import useIsRecording from "../../hooks/useIsRecording";
@@ -886,7 +886,7 @@ export function ILSBottomBar({
           <RecordingBTN />
         </>
       )}
-      <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
+      <OutlinedButton Icon={AdjustmentsVerticalIcon} onClick={handleClickFAB} />
 
       <Transition appear show={Boolean(open)} as={Fragment}>
         <Dialog

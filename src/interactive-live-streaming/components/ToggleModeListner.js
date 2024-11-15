@@ -1,5 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
-import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import {
   Constants,
   useMeeting,
@@ -31,7 +31,7 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
             ${open ? "" : "text-opacity-90"}
             group inline-flex items-center  m-1 p-1 text-base font-medium rounded-full hover:bg-gray-600 text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
-              <DotsVerticalIcon
+              <AdjustmentsVerticalIcon
                 className={`${open ? "" : "text-opacity-70"}
               h-5 w-5 text-white transition duration-150 ease-in-out group-hover:text-opacity-80`}
                 aria-hidden="true"
