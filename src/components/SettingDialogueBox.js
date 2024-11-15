@@ -1,6 +1,6 @@
 import { Dialog, Popover } from "@headlessui/react";
 import { Transition } from "@headlessui/react";
-import { ChevronDownIcon, XIcon } from "@heroicons/react/outline";
+import { ChevronDownIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import ConfirmBox from "./ConfirmBox";
@@ -193,7 +193,7 @@ export default function SettingDialogueBox({
                           }}
                           className="focus-visible:border-none"
                         >
-                          <XIcon className="h-6 w-6 text-white" />
+                          <XCircleIcon className="h-6 w-6 text-white" />
                         </button>
                       </div>
                     </div>

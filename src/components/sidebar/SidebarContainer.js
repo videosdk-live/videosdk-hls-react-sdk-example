@@ -7,7 +7,7 @@ import CreatePoll from "../../interactive-live-streaming/components/pollContaine
 import PollList from "../../interactive-live-streaming/components/pollContainer/PollList";
 import SubmitPollList from "../../interactive-live-streaming/components/pollContainer/SubmitPollList";
 import { sideBarModes } from "../../utils/common";
-import { XIcon } from "@heroicons/react/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { ChatPanel } from "./ChatPanel";
 import { ParticipantPanel } from "./ParticipantPanel";
 import { Dialog, Transition } from "@headlessui/react";
@@ -86,7 +86,7 @@ const SideBarTabView = ({
                   onClick={handleClose}
                   style={{ margin: 0, padding: 0 }}
                 >
-                  <XIcon className="h-5 w-5" />
+                  <XCircleIcon className="h-5 w-5" />
                 </button>
               </div>
             )}

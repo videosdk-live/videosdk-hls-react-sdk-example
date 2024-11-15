@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { usePubSub } from "@videosdk.live/react-sdk";
 import { sideBarModes } from "../../../utils/common";
 import { Input, Label } from "@windmill/react-ui";
-import { XIcon } from "@heroicons/react/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useMeetingAppContext } from "../../../MeetingAppContextDef";
 
 const CreatePollPart = ({
@@ -139,7 +139,7 @@ const CreatePollPart = ({
                           });
                         }}
                       >
-                        <XIcon
+                        <XCircleIcon
                           className={`h-5 w-5 ${
                             item.isCorrect && item.option !== ""
                               ? "text-white"
