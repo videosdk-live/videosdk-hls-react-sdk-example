@@ -1,4 +1,4 @@
-import { CheckCircleIcon ,CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
+import {  CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { Constants } from "@videosdk.live/react-sdk";
 import React, { useState } from "react";
 
