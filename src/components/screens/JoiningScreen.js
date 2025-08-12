@@ -255,7 +255,7 @@ export function JoiningScreen({
   }, [audioTrack]);
 
   useEffect(() => {
-    if (meetingMode === Constants.modes.VIEWER) {
+    if (meetingMode === Constants.modes.SIGNALLING_ONLY) {
       _handleTurnOffMic();
       _handleTurnOffWebcam();
     }
@@ -335,7 +335,7 @@ export function JoiningScreen({
             className={`rounded-full min-w-auto w-11 h-11 flex items-center justify-center ${
               onState ? "bg-white" : "bg-red-650 text-white"
             }`}
-            disabled={meetingMode === Constants.modes.VIEWER}
+            disabled={meetingMode === Constants.modes.SIGNALLING_ONLY}
           >
             {onState ? (
               <OnIcon fillcolor={onState ? "#050A0E" : "#fff"} />
@@ -392,7 +392,7 @@ export function JoiningScreen({
                           <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
                             {!webcamOn ? (
                               <p className="text-xl xl:text-lg 2xl:text-xl text-white">
-                                {meetingMode === Constants.modes.VIEWER
+                                {meetingMode === Constants.modes.SIGNALLING_ONLY
                                   ? "You are not permitted to use your microphone and camera."
                                   : "The camera is off"}
                               </p>
@@ -420,7 +420,7 @@ export function JoiningScreen({
                         />
                       ) : null}
 
-                      {meetingMode === Constants.modes.CONFERENCE && (
+                      {meetingMode === Constants.modes.SEND_AND_RECV && (
                         <div className="absolute xl:bottom-6 bottom-4 left-0 right-0">
                           <div className="container grid grid-flow-col space-x-4 items-center justify-center md:-m-2">
                             <ButtonWithTooltip
@@ -443,7 +443,7 @@ export function JoiningScreen({
                     </div>
 
                     {!isMobile &&
-                      meetingMode === Constants.modes.CONFERENCE && (
+                      meetingMode === Constants.modes.SEND_AND_RECV && (
                         <div
                           className="m-4 absolute md:left-12 lg:left-24 xl:left-44 md:right-12 lg:right-24 xl:right-44 rounded cursor-pointer bg-gray-700"
                           onClick={(e) => {

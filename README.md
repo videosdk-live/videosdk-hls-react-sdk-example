@@ -140,8 +140,8 @@ Token is used to create and validate a meeting using API and also initialise a m
       message: "Meeting is running.",
     },
     participantId: "xyz",
-    // For Interactive Live Streaming we can provide mode, `CONFERENCE` for Host and  `VIEWER` for remote participant.
-    mode: "CONFERENCE", // "CONFERENCE" || "VIEWER"
+    // For Interactive Live Streaming we can provide mode, `SEND_AND_RECV` for Host and  `SIGNALLING_ONLY` for remote participant.
+    mode: "SEND_AND_RECV", // "SEND_AND_RECV" || "SIGNALLING_ONLY"
   }}
   token={"token"}
   joinWithoutUserInteraction // Boolean

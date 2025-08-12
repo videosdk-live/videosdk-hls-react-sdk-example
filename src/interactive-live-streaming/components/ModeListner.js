@@ -40,7 +40,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
   usePubSub(`CHANGE_MODE_${mMeeting?.localParticipant?.id}`, {
     onMessageReceived: (data) => {
       const message = JSON.parse(data.message);
-      if (message.mode === Constants.modes.CONFERENCE) {
+      if (message.mode === Constants.modes.SEND_AND_RECV) {
         const muteMic = mMeetingRef.current?.muteMic;
         const disableWebcam = mMeetingRef.current?.disableWebcam;
         const disableScreenShare = mMeetingRef.current?.disableScreenShare;

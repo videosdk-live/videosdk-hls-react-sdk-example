@@ -91,7 +91,7 @@ export function MeetingDetailsScreen({
             {iscreateMeetingClicked
               ? "Start a meeting"
               : isJoinMeetingClicked &&
-                meetingMode === Constants.modes.CONFERENCE
+                meetingMode === Constants.modes.SEND_AND_RECV
               ? "Join Studio"
               : "Join Streaming Room"}
           </button>
@@ -107,7 +107,7 @@ export function MeetingDetailsScreen({
                 const studioCode = await _handleOnCreateMeeting();
                 setStudioCode(studioCode);
                 setIscreateMeetingClicked(true);
-                setMeetingMode(Constants.modes.CONFERENCE);
+                setMeetingMode(Constants.modes.SEND_AND_RECV);
               }}
             >
               Create a meeting
@@ -117,7 +117,7 @@ export function MeetingDetailsScreen({
               className="w-full bg-purple-350 text-white px-2 py-3 mt-5 rounded-xl"
               onClick={async (e) => {
                 setIsJoinMeetingClicked(true);
-                setMeetingMode(Constants.modes.CONFERENCE);
+                setMeetingMode(Constants.modes.SEND_AND_RECV);
               }}
             >
               Join as a Host
@@ -126,7 +126,7 @@ export function MeetingDetailsScreen({
               className="w-full bg-gray-650 text-white px-2 py-3 rounded-xl mt-5"
               onClick={(e) => {
                 setIsJoinMeetingClicked(true);
-                setMeetingMode(Constants.modes.VIEWER);
+                setMeetingMode(Constants.modes.SIGNALLING_ONLY);
               }}
             >
               Join as a Viewer

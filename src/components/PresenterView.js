@@ -1,4 +1,4 @@
-import { useMeeting, useParticipant } from "@videosdk.live/react-sdk";
+import { useMeeting, useParticipant, VideoPlayer } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef } from "react";
 import ReactPlayer from "react-player";
 import MicOffSmallIcon from "../icons/MicOffSmallIcon";
@@ -66,27 +66,17 @@ export function PresenterView({ height }) {
     >
       <audio autoPlay playsInline controls={false} ref={audioPlayer} />
       <div className={"video-contain absolute h-full w-full"}>
-        <ReactPlayer
-          ref={videoPlayer}
-          //
-          playsinline // very very imp prop
-          playIcon={<></>}
-          //
-          pip={false}
-          light={false}
-          controls={false}
-          muted={true}
-          playing={true}
-          //
-          url={mediaStream}
-          //
-          height={"100%"}
-          width={"100%"}
-          style={{
-            filter: isLocal ? "blur(1rem)" : undefined,
+    <VideoPlayer
+          participantId={presenterId} // Required
+          type="share" // "video" or "share"
+          containerStyle={{
+            height: "100%",
+            width: "100%",
           }}
-          onError={(err) => {
-            console.log(err, "presenter video error");
+          className="h-full"
+          classNameVideo="h-full"
+          videoStyle={{
+            filter: isLocal ? "blur(1rem)" : undefined,
           }}
         />
         <div

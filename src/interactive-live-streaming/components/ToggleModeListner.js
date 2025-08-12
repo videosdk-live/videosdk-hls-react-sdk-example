@@ -49,7 +49,7 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
             >
               <Popover.Panel
                 className={`absolute ${
-                  participantMode === Constants.modes.CONFERENCE
+                  participantMode === Constants.modes.SEND_AND_RECV
                     ? "w-48"
                     : "w-40"
                 } left-full z-10 mt-1 -translate-x-full shadow-xl transform py-2.5  sm:px-0  bg-gray-750 rounded-sm hover:cursor-pointer`}
@@ -60,9 +60,9 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                     publish(
                       JSON.stringify({
                         mode:
-                          participantMode === Constants.modes.CONFERENCE
-                            ? Constants.modes.VIEWER
-                            : Constants.modes.CONFERENCE,
+                          participantMode === Constants.modes.SEND_AND_RECV
+                            ? Constants.modes.SIGNALLING_ONLY
+                            : Constants.modes.SEND_AND_RECV,
                       })
                     );
                     close();
@@ -73,7 +73,7 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                     <div className="flex items-center justify-center">
                       <ParticipantAddHostIcon
                         fill={
-                          participantMode === Constants.modes.CONFERENCE
+                          participantMode === Constants.modes.SEND_AND_RECV
                             ? "#fff"
                             : "#9E9EA7"
                         }
@@ -94,12 +94,12 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                           fontSize: 14,
                           marginTop: 2,
                           color:
-                            participantMode === Constants.modes.CONFERENCE
+                            participantMode === Constants.modes.SEND_AND_RECV
                               ? "#fff"
                               : "#9E9EA7",
                         }}
                       >
-                        {participantMode === Constants.modes.CONFERENCE
+                        {participantMode === Constants.modes.SEND_AND_RECV
                           ? "Remove from Co-host"
                           : "Add as a Co-host"}
                       </p>

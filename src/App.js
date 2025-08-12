@@ -16,7 +16,7 @@ const App = () => {
   const [selectWebcamDeviceId, setSelectWebcamDeviceId] = useState(
     selectedWebcam.id
   );
-  const [meetingMode, setMeetingMode] = useState(Constants.modes.CONFERENCE);
+  const [meetingMode, setMeetingMode] = useState(Constants.modes.SEND_AND_RECV);
   const [selectMicDeviceId, setSelectMicDeviceId] = useState(selectedMic.id);
   const [isMeetingStarted, setMeetingStarted] = useState(false);
   const [isMeetingLeft, setIsMeetingLeft] = useState(false);

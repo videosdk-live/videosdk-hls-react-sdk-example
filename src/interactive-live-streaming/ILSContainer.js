@@ -100,7 +100,7 @@ export function ILSContainer({
 
   const _handleOnRecordingStateChanged = ({ status }) => {
     if (
-      meetingModeRef.current === Constants.modes.CONFERENCE &&
+      meetingModeRef.current === Constants.modes.SEND_AND_RECV &&
       (status === Constants.recordingEvents.RECORDING_STARTED ||
         status === Constants.recordingEvents.RECORDING_STOPPED)
     ) {
@@ -127,7 +127,7 @@ export function ILSContainer({
   const _handleOnHlsStateChanged = (data) => {
     //
     if (
-      meetingModeRef.current === Constants.modes.CONFERENCE && // trigger on conference mode only
+      meetingModeRef.current === Constants.modes.SEND_AND_RECV && // trigger on conference mode only
       (data.status === Constants.hlsEvents.HLS_STARTED ||
         data.status === Constants.hlsEvents.HLS_STOPPED)
     ) {
@@ -327,7 +327,7 @@ export function ILSContainer({
               />
               <PollsListner />
 
-              {meetingMode === Constants.modes.CONFERENCE &&
+              {meetingMode === Constants.modes.SEND_AND_RECV &&
                 (isMobile || isTab ? (
                   <></>
                 ) : (
@@ -343,7 +343,7 @@ export function ILSContainer({
                 ))}
 
               <div className={` flex flex-1 flex-row bg-gray-800 `}>
-                {meetingMode === Constants.modes.CONFERENCE ? (
+                {meetingMode === Constants.modes.SEND_AND_RECV ? (
                   <div className={`flex flex-1 `}>
                     {isPresenting ? (
                       <PresenterView
@@ -373,7 +373,7 @@ export function ILSContainer({
                 )}
                 <SidebarConatiner
                   height={
-                    meetingMode === Constants.modes.VIEWER
+                    meetingMode === Constants.modes.SIGNALLING_ONLY
                       ? containerHeight - bottomBarHeight
                       : isMobile || isTab
                       ? containerHeight - bottomBarHeight

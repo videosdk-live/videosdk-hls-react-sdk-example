@@ -533,7 +533,7 @@ export function ILSBottomBar({
           );
         }}
         badge={`${new Map(participants)?.size}`}
-        disabled={meetingMode === Constants.modes.VIEWER}
+        disabled={meetingMode === Constants.modes.SIGNALLING_ONLY}
       />
     ) : (
       <OutlinedButton
@@ -546,7 +546,7 @@ export function ILSBottomBar({
         isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
         tooltip={"View \nParticipants"}
         badge={`${new Map(participants)?.size}`}
-        disabled={meetingMode === Constants.modes.VIEWER}
+        disabled={meetingMode === Constants.modes.SIGNALLING_ONLY}
       />
     );
   };
@@ -867,7 +867,7 @@ export function ILSBottomBar({
     { icon: BottomBarButtonTypes.ECOMMERCE },
   ];
 
-  if (meetingMode === Constants.modes.CONFERENCE) {
+  if (meetingMode === Constants.modes.SEND_AND_RECV) {
     otherFeatures.pop({ icon: BottomBarButtonTypes.REACTION });
     otherFeatures.push({ icon: BottomBarButtonTypes.SCREEN_SHARE });
     otherFeatures.push({ icon: BottomBarButtonTypes.HLS });
@@ -879,7 +879,7 @@ export function ILSBottomBar({
       style={{ height: bottomBarHeight }}
     >
       <LeaveBTN />
-      {meetingMode === Constants.modes.CONFERENCE && (
+      {meetingMode === Constants.modes.SEND_AND_RECV && (
         <>
           <MicBTN />
           <WebCamBTN />
@@ -955,9 +955,9 @@ export function ILSBottomBar({
                             ) : icon === BottomBarButtonTypes.POLL ? (
                               <PollBTN isMobile={isMobile} isTab={isTab} />
                             ) : icon === BottomBarButtonTypes.REACTION &&
-                              meetingMode === Constants.modes.VIEWER ? (
+                              meetingMode === Constants.modes.SIGNALLING_ONLY ? (
                               <ReactionBTN isMobile={isMobile} isTab={isTab} />
-                            ) : meetingMode === Constants.modes.VIEWER ? (
+                            ) : meetingMode === Constants.modes.SIGNALLING_ONLY ? (
                               <ECommerceBTN isMobile={isMobile} isTab={isTab} />
                             ) : null}
                           </div>
@@ -1003,9 +1003,9 @@ export function ILSBottomBar({
                 ) : icon === BottomBarButtonTypes.POLL ? (
                   <PollBTN isMobile={isMobile} isTab={isTab} />
                 ) : icon === BottomBarButtonTypes.REACTION &&
-                  meetingMode === Constants.modes.VIEWER ? (
+                  meetingMode === Constants.modes.SIGNALLING_ONLY ? (
                   <ReactionBTN isMobile={isMobile} isTab={isTab} />
-                ) : meetingMode === Constants.modes.VIEWER ? (
+                ) : meetingMode === Constants.modes.SIGNALLING_ONLY ? (
                   <ECommerceBTN isMobile={isMobile} isTab={isTab} />
                 ) : null}
               </Grid>
@@ -1019,14 +1019,14 @@ export function ILSBottomBar({
       <MeetingIdCopyBTN />
 
       <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
-        {meetingMode === Constants.modes.CONFERENCE && (
+        {meetingMode === Constants.modes.SEND_AND_RECV && (
           <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
         )}
         <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
-        {meetingMode === Constants.modes.VIEWER && (
+        {meetingMode === Constants.modes.SIGNALLING_ONLY && (
           <ReactionBTN isMobile={isMobile} isTab={isTab} />
         )}
-        {meetingMode === Constants.modes.CONFERENCE && (
+        {meetingMode === Constants.modes.SEND_AND_RECV && (
           <>
             <MicBTN />
             <WebCamBTN />
@@ -1035,7 +1035,7 @@ export function ILSBottomBar({
         <LeaveBTN />
       </div>
       <div className="flex items-center justify-center">
-        {meetingMode === Constants.modes.VIEWER && (
+        {meetingMode === Constants.modes.SIGNALLING_ONLY && (
           <ECommerceBTN isMobile={isMobile} isTab={isTab} />
         )}
         <PollBTN isMobile={isMobile} isTab={isTab} />

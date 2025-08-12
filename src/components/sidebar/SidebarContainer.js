@@ -73,7 +73,7 @@ const SideBarTabView = ({
                             ? `(${polls?.length || draftPolls?.length})`
                             : ""
                         }`
-                      : meetingMode === Constants.modes.VIEWER
+                      : meetingMode === Constants.modes.SIGNALLING_ONLY
                       ? `Polls ${polls?.length ? `(${polls?.length})` : ""}`
                       : "Create a poll"
                     : sideBarMode === sideBarModes.ECOMMERCE
@@ -94,13 +94,13 @@ const SideBarTabView = ({
               <ParticipantPanel panelHeight={panelHeight} />
             ) : sideBarMode === "CHAT" ? (
               <ChatPanel panelHeight={panelHeight} />
-            ) : sideBarMode === "POLLS" && meetingMode !== "VIEWER" ? (
+            ) : sideBarMode === "POLLS" && meetingMode !== "SIGNALLING_ONLY" ? (
               polls.length === 0 && draftPolls.length === 0 ? (
                 <CreatePoll {...{ panelHeight }} />
               ) : (
                 <PollList {...{ panelHeight }} />
               )
-            ) : sideBarMode === "POLLS" && meetingMode === "VIEWER" ? (
+            ) : sideBarMode === "POLLS" && meetingMode === "SIGNALLING_ONLY" ? (
               <SubmitPollList {...{ panelHeight }} />
             ) : sideBarMode === "CREATE_POLL" ? (
               <CreatePoll {...{ panelHeight }} />

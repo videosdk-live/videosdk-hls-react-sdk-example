@@ -1,6 +1,6 @@
 import { Popover, Transition } from "@headlessui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { useParticipant } from "@videosdk.live/react-sdk";
+import { useParticipant, VideoPlayer } from "@videosdk.live/react-sdk";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { useMediaQuery } from "react-responsive";
@@ -449,7 +449,7 @@ export function ParticipantView({ participantId }) {
       return mediaStream;
     }
   }, [webcamStream, webcamOn]);
-  return mode === "CONFERENCE" ? (
+  return mode === "SEND_AND_RECV" ? (
     <div
       onMouseEnter={() => {
         setMouseOver(true);
@@ -461,24 +461,16 @@ export function ParticipantView({ participantId }) {
     >
       <audio ref={micRef} autoPlay muted={isLocal} />
       {webcamOn ? (
-        <ReactPlayer
-          //
-          playsinline // very very imp prop
-          playIcon={<></>}
-          //
-          pip={false}
-          light={false}
-          controls={false}
-          muted={true}
-          playing={true}
-          //
-          url={webcamMediaStream}
-          //
-          height={"100%"}
-          width={"100%"}
-          onError={(err) => {
-            console.log(err, "participant video error");
+        <VideoPlayer
+          participantId={participantId} // Required
+          type="video" // "video" or "share"
+          containerStyle={{
+            height: "100%",
+            width: "100%",
           }}
+          className="h-full"
+          classNameVideo="h-full"
+          videoStyle={{}}
         />
       ) : (
         <div className="h-full w-full flex items-center justify-center">
