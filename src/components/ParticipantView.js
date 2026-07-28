@@ -74,17 +74,21 @@ export const CornerDisplayName = ({
     let stats = [];
     let audioStats = [];
     let videoStats = [];
-    if (isPresenting) {
-      stats = await getShareStats();
-    } else if (webcamStream) {
-      stats = await getVideoStats();
-    } else if (micStream) {
-      stats = await getAudioStats();
-    }
+    try {
+      if (isPresenting) {
+        stats = await getShareStats();
+      } else if (webcamStream) {
+        stats = await getVideoStats();
+      } else if (micStream) {
+        stats = await getAudioStats();
+      }
 
-    if (webcamStream || micStream || isPresenting) {
-      videoStats = isPresenting ? await getShareStats() : await getVideoStats();
-      audioStats = isPresenting ? [] : await getAudioStats();
+      if (webcamStream || micStream || isPresenting) {
+        videoStats = isPresenting ? await getShareStats() : await getVideoStats();
+        audioStats = isPresenting ? [] : await getAudioStats();
+      }
+    } catch (err) {
+      console.error('getShareStats/getVideoStats/getAudioStats failed', err);
     }
 
     // setScore(stats?.score);

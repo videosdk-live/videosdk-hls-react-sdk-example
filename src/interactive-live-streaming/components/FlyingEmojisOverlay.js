@@ -73,13 +73,17 @@ const FlyingEmojisOverlay = ({}) => {
 
   // Listen to window events to show local user emojis and send the emoji to all participants on the call
   useEffect(() => {
-    function handleSendFlyingEmoji(e) {
+    async function handleSendFlyingEmoji(e) {
       const { emoji } = e.detail;
       // console.log(`⭐ Sending flying emoji: ${emoji}`);
 
       if (emoji) {
         // pubsubDataRef.current.publish(emoji);
-        pubsubData.publish(emoji);
+        try {
+          await pubsubData.publish(emoji);
+        } catch (err) {
+          console.error('publish failed', err);
+        }
       }
     }
 

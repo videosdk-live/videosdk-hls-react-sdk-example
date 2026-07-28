@@ -41,13 +41,21 @@ export function TopBar({ topBarHeight }) {
       [recordingState]
     );
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isRecording = isRecordingRef.current;
 
       if (isRecording) {
-        stopRecording();
+        try {
+          await stopRecording();
+        } catch (err) {
+          console.error('stopRecording failed', err);
+        }
       } else {
-        startRecording();
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error('startRecording failed', err);
+        }
       }
     };
 
@@ -129,21 +137,29 @@ export function TopBar({ topBarHeight }) {
       width: 170,
     };
 
-    const _handleStartHLS = () => {
+    const _handleStartHLS = async () => {
       const type = typeRef.current;
       const priority = priorityRef.current;
       const gridSize = gridSizeRef.current;
 
       const layout = { type, priority, gridSize };
 
-      startHls({ layout, theme: "DARK" });
+      try {
+        await startHls({ layout, theme: "DARK" });
+      } catch (err) {
+        console.error('startHls failed', err);
+      }
     };
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isHls = isHlsRef.current;
 
       if (isHls) {
-        stopHls();
+        try {
+          await stopHls();
+        } catch (err) {
+          console.error('stopHls failed', err);
+        }
       } else {
         _handleStartHLS();
       }
