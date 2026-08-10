@@ -159,12 +159,6 @@ export function ILSContainer({
     }
   };
 
-  function onParticipantJoined(participant) {
-    // Change quality to low, med or high based on resolution
-    participant && participant.setQuality("high");
-    // console.log(" onParticipantJoined", participant);
-  }
-
   function onEntryResponded(participantId, name) {
     // console.log(" onEntryResponded", participantId, name);
     if (mMeetingRef.current?.localParticipant?.id === participantId) {
@@ -264,7 +258,6 @@ export function ILSContainer({
   };
 
   const mMeeting = useMeeting({
-    onParticipantJoined,
     onEntryResponded,
     onMeetingJoined,
     onMeetingLeft,

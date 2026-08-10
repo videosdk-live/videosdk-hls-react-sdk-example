@@ -151,7 +151,12 @@ export function ILSBottomBar({
     const changeMic = mMeeting?.changeMic;
 
     const getMics = async (mGetMics) => {
-      const mics = await mGetMics();
+      let mics;
+      try {
+        mics = await mGetMics();
+      } catch (err) {
+        console.error('getMics failed', err);
+      }
 
       mics && mics?.length && setMics(mics);
     };
@@ -296,7 +301,12 @@ export function ILSBottomBar({
     const changeWebcam = mMeeting?.changeWebcam;
 
     const getWebcams = async (mGetWebcams) => {
-      const webcams = await mGetWebcams();
+      let webcams;
+      try {
+        webcams = await mGetWebcams();
+      } catch (err) {
+        console.error('getWebcams failed', err);
+      }
 
       webcams && webcams?.length && setWebcams(webcams);
     };

@@ -425,7 +425,18 @@ export function ParticipantView({ participantId }) {
     isLocal,
     mode,
     isActiveSpeaker,
-  } = useParticipant(participantId);
+    setQuality,
+  } = useParticipant(participantId, {
+    onStreamEnabled: (stream) => {
+      if (stream.kind === "video" && !isLocal) {
+        try {
+          setQuality("high");
+        } catch (err) {
+          console.error('setQuality failed', err);
+        }
+      }
+    },
+  });
 
   const micRef = useRef(null);
   const [mouseOver, setMouseOver] = useState(false);
