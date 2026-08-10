@@ -50,7 +50,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
           await disableWebcam();
           await disableScreenShare();
         } catch (err) {
-          console.error('muteMic/disableWebcam/disableScreenShare failed', err);
+          console.error("muteMic/disableWebcam/disableScreenShare failed", err);
         }
         setReqModeInfo({
           enabled: true,
@@ -63,7 +63,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
         try {
           await mMeeting.changeMode(message.mode);
         } catch (err) {
-          console.error('changeMode failed', err);
+          console.error("changeMode failed", err);
         }
 
         const muteMic = mMeetingRef.current?.muteMic;
@@ -75,7 +75,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
           await disableWebcam();
           await disableScreenShare();
         } catch (err) {
-          console.error('muteMic/disableWebcam/disableScreenShare failed', err);
+          console.error("muteMic/disableWebcam/disableScreenShare failed", err);
         }
 
         setSideBarMode(null);
@@ -88,7 +88,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
     {
       onMessageReceived: (data) => {
         new Audio(
-          `https://static.videosdk.live/prebuilt/notification.mp3`
+          `https://static.videosdk.live/prebuilt/notification.mp3`,
         ).play();
 
         toast(`${data.senderName} has been added as a Co-host`, {
@@ -103,7 +103,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
         });
       },
       onOldMessagesReceived: (messages) => {},
-    }
+    },
   );
 
   const { publish: invitatioRejectedPublish } = usePubSub(
@@ -112,7 +112,7 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
       onMessageReceived: (data) => {
         if (data.message.senderId === participantRef.current.participant.id) {
           new Audio(
-            `https://static.videosdk.live/prebuilt/notification.mp3`
+            `https://static.videosdk.live/prebuilt/notification.mp3`,
           ).play();
 
           toast(
@@ -126,11 +126,11 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
               draggable: true,
               progress: undefined,
               theme: "light",
-            }
+            },
           );
         }
       },
-    }
+    },
   );
 
   useMeeting({
@@ -152,23 +152,23 @@ const ModeListner = ({ setMeetingMode, meetingMode }) => {
           try {
             await invitatioRejectedPublish(
               { senderId: reqModeInfo.senderId },
-              { persist: true }
+              { persist: true },
             );
           } catch (err) {
-            console.error('invitatioRejectedPublish failed', err);
+            console.error("invitatioRejectedPublish failed", err);
           }
         }}
         onSuccess={async () => {
           try {
             await mMeeting.changeMode(reqModeInfo.mode);
           } catch (err) {
-            console.error('changeMode failed', err);
+            console.error("changeMode failed", err);
           }
           setReqModeInfo(reqInfoDefaultState);
           try {
             await invitatioAcceptedPublish({}, { persist: true });
           } catch (err) {
-            console.error('invitatioAcceptedPublish failed', err);
+            console.error("invitatioAcceptedPublish failed", err);
           }
         }}
         title={`Request to become a Co-host`}

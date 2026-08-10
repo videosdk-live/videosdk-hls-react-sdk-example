@@ -95,22 +95,40 @@ const ProductPart = () => {
                 </p>
               </div>
             </div>
-            <label htmlFor="carousel-3" className="carousel-control prev control-1">
+            <label
+              htmlFor="carousel-3"
+              className="carousel-control prev control-1"
+            >
               ‹
             </label>
-            <label htmlFor="carousel-2" className="carousel-control next control-1">
+            <label
+              htmlFor="carousel-2"
+              className="carousel-control next control-1"
+            >
               ›
             </label>
-            <label htmlFor="carousel-1" className="carousel-control prev control-2">
+            <label
+              htmlFor="carousel-1"
+              className="carousel-control prev control-2"
+            >
               ‹
             </label>
-            <label htmlFor="carousel-3" className="carousel-control next control-2">
+            <label
+              htmlFor="carousel-3"
+              className="carousel-control next control-2"
+            >
               ›
             </label>
-            <label htmlFor="carousel-2" className="carousel-control prev control-3">
+            <label
+              htmlFor="carousel-2"
+              className="carousel-control prev control-3"
+            >
               ‹
             </label>
-            <label htmlFor="carousel-1" className="carousel-control next control-3">
+            <label
+              htmlFor="carousel-1"
+              className="carousel-control next control-3"
+            >
               ›
             </label>
           </div>

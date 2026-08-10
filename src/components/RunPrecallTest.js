@@ -25,7 +25,8 @@ const PANEL_VIEWPORT_MARGIN = 8;
 
 const formatMs = (v) => (v == null ? "-" : `${Math.round(v)} ms`);
 const formatPercent = (v) => (v == null ? "-" : `${v.toFixed(2)}%`);
-const formatKbps = (bps) => (bps == null ? "-" : `${Math.round(bps / 1000)} kb/s`);
+const formatKbps = (bps) =>
+  bps == null ? "-" : `${Math.round(bps / 1000)} kb/s`;
 const formatFps = (v) => (v == null ? "-" : `${Math.round(v)}`);
 
 const overallQuality = (networkQuality) => {
@@ -43,7 +44,9 @@ const StatsPanelPositioner = ({ buttonRef, children }) => {
   const [buttonRect, setButtonRect] = useState(null);
   const [panelHeight, setPanelHeight] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : NETWORK_QUALITY_PANEL_WIDTH
+    typeof window !== "undefined"
+      ? window.innerWidth
+      : NETWORK_QUALITY_PANEL_WIDTH,
   );
 
   const updateButtonRect = useCallback(() => {
@@ -83,7 +86,7 @@ const StatsPanelPositioner = ({ buttonRef, children }) => {
 
   const effectivePanelWidth = Math.min(
     NETWORK_QUALITY_PANEL_WIDTH,
-    viewportWidth - PANEL_VIEWPORT_MARGIN * 2
+    viewportWidth - PANEL_VIEWPORT_MARGIN * 2,
   );
 
   const positionStyle = (() => {
@@ -96,7 +99,10 @@ const StatsPanelPositioner = ({ buttonRef, children }) => {
       leftIfRightAnchored < PANEL_VIEWPORT_MARGIN
         ? { left: PANEL_VIEWPORT_MARGIN, right: "auto" }
         : {
-            right: Math.max(PANEL_VIEWPORT_MARGIN, viewportWidth - buttonRect.right),
+            right: Math.max(
+              PANEL_VIEWPORT_MARGIN,
+              viewportWidth - buttonRect.right,
+            ),
             left: "auto",
           };
 
@@ -164,7 +170,12 @@ const RunPrecallTest = ({ videoStream, audioStream }) => {
 
   const buttonRef = useRef(null);
 
-  useEffect(() => () => { mountedRef.current = false; }, []);
+  useEffect(
+    () => () => {
+      mountedRef.current = false;
+    },
+    [],
+  );
 
   const runTest = useCallback(async () => {
     if (inFlight.current) return;

@@ -54,7 +54,7 @@ export function ILSBottomBar({
       try {
         await publish("Raise Hand");
       } catch (err) {
-        console.error('publish failed', err);
+        console.error("publish failed", err);
       }
     };
 
@@ -101,7 +101,7 @@ export function ILSBottomBar({
           recordingState === Constants.recordingEvents.RECORDING_STARTING ||
           recordingState === Constants.recordingEvents.RECORDING_STOPPING,
       }),
-      [recordingState]
+      [recordingState],
     );
 
     const _handleClick = async () => {
@@ -111,13 +111,13 @@ export function ILSBottomBar({
         try {
           await stopRecording();
         } catch (err) {
-          console.error('stopRecording failed', err);
+          console.error("stopRecording failed", err);
         }
       } else {
         try {
           await startRecording();
         } catch (err) {
-          console.error('startRecording failed', err);
+          console.error("startRecording failed", err);
         }
       }
     };
@@ -131,12 +131,13 @@ export function ILSBottomBar({
           recordingState === Constants.recordingEvents.RECORDING_STARTED
             ? "Stop Recording"
             : recordingState === Constants.recordingEvents.RECORDING_STARTING
-            ? "Starting Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-            ? "Start Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-            ? "Stopping Recording"
-            : "Start Recording"
+              ? "Starting Recording"
+              : recordingState === Constants.recordingEvents.RECORDING_STOPPED
+                ? "Start Recording"
+                : recordingState ===
+                    Constants.recordingEvents.RECORDING_STOPPING
+                  ? "Stopping Recording"
+                  : "Start Recording"
         }
         lottieOption={isRecording ? defaultOptions : null}
         isRequestProcessing={isRequestProcessing}
@@ -155,7 +156,7 @@ export function ILSBottomBar({
       try {
         mics = await mGetMics();
       } catch (err) {
-        console.error('getMics failed', err);
+        console.error("getMics failed", err);
       }
 
       mics && mics?.length && setMics(mics);
@@ -183,7 +184,7 @@ export function ILSBottomBar({
             try {
               await mMeeting.toggleMic();
             } catch (err) {
-              console.error('toggleMic failed', err);
+              console.error("toggleMic failed", err);
             }
           }}
           bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
@@ -253,7 +254,10 @@ export function ILSBottomBar({
                                           try {
                                             await changeMic(deviceId);
                                           } catch (err) {
-                                            console.error('changeMic failed', err);
+                                            console.error(
+                                              "changeMic failed",
+                                              err,
+                                            );
                                           }
                                           close();
                                         }}
@@ -304,7 +308,7 @@ export function ILSBottomBar({
       try {
         webcams = await mGetWebcams();
       } catch (err) {
-        console.error('getWebcams failed', err);
+        console.error("getWebcams failed", err);
       }
 
       webcams && webcams?.length && setWebcams(webcams);
@@ -340,13 +344,13 @@ export function ILSBottomBar({
                   cameraId: selectWebcamDeviceId,
                 });
               } catch (err) {
-                console.error('createCameraVideoTrack failed', err);
+                console.error("createCameraVideoTrack failed", err);
               }
             }
             try {
               await mMeeting.toggleWebcam(track);
             } catch (err) {
-              console.error('toggleWebcam failed', err);
+              console.error("toggleWebcam failed", err);
             }
           }}
           bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
@@ -424,7 +428,10 @@ export function ILSBottomBar({
                                               });
                                             await changeWebcam(track);
                                           } catch (err) {
-                                            console.error('changeWebcam failed', err);
+                                            console.error(
+                                              "changeWebcam failed",
+                                              err,
+                                            );
                                           }
                                           close();
                                         }}
@@ -487,7 +494,7 @@ export function ILSBottomBar({
           try {
             await toggleScreenShare();
           } catch (err) {
-            console.error('toggleScreenShare failed', err);
+            console.error("toggleScreenShare failed", err);
           }
         }}
         disabled={
@@ -496,8 +503,8 @@ export function ILSBottomBar({
               ? false
               : true
             : isMobile
-            ? true
-            : false
+              ? true
+              : false
         }
       />
     ) : (
@@ -507,7 +514,7 @@ export function ILSBottomBar({
           try {
             await toggleScreenShare();
           } catch (err) {
-            console.error('toggleScreenShare failed', err);
+            console.error("toggleScreenShare failed", err);
           }
         }}
         isFocused={localScreenShareOn}
@@ -534,7 +541,7 @@ export function ILSBottomBar({
           try {
             await leave();
           } catch (err) {
-            console.error('leave failed', err);
+            console.error("leave failed", err);
           }
           setIsMeetingLeft(true);
         }}
@@ -552,7 +559,7 @@ export function ILSBottomBar({
         isFocused={sideBarMode === sideBarModes.CHAT}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+            s === sideBarModes.CHAT ? null : sideBarModes.CHAT,
           );
         }}
       />
@@ -561,7 +568,7 @@ export function ILSBottomBar({
         Icon={ChatIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+            s === sideBarModes.CHAT ? null : sideBarModes.CHAT,
           );
         }}
         isFocused={sideBarMode === "CHAT"}
@@ -581,7 +588,7 @@ export function ILSBottomBar({
         Icon={ParticipantsIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS,
           );
         }}
         badge={`${new Map(participants)?.size}`}
@@ -592,7 +599,7 @@ export function ILSBottomBar({
         Icon={ParticipantsIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS,
           );
         }}
         isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
@@ -613,7 +620,7 @@ export function ILSBottomBar({
         Icon={PollIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.POLLS ? null : sideBarModes.POLLS
+            s === sideBarModes.POLLS ? null : sideBarModes.POLLS,
           );
         }}
       />
@@ -622,7 +629,7 @@ export function ILSBottomBar({
         Icon={PollIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.POLLS ? null : sideBarModes.POLLS
+            s === sideBarModes.POLLS ? null : sideBarModes.POLLS,
           );
         }}
         isFocused={sideBarMode === sideBarModes.POLLS}
@@ -642,7 +649,7 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_STARTING ||
           hlsState === Constants.hlsEvents.HLS_STOPPING,
       }),
-      [hlsState]
+      [hlsState],
     );
 
     const { type, priority, gridSize } = useMemo(
@@ -651,7 +658,7 @@ export function ILSBottomBar({
         priority: "PIN",
         gridSize: "12",
       }),
-      []
+      [],
     );
 
     const typeRef = useRef(type);
@@ -696,7 +703,7 @@ export function ILSBottomBar({
       try {
         await startHls({ layout, theme: "DARK" });
       } catch (err) {
-        console.error('startHls failed', err);
+        console.error("startHls failed", err);
       }
     };
 
@@ -707,7 +714,7 @@ export function ILSBottomBar({
         try {
           await stopHls();
         } catch (err) {
-          console.error('stopHls failed', err);
+          console.error("stopHls failed", err);
         }
       } else {
         _handleStartHLS();
@@ -722,12 +729,12 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         Icon={LiveIcon}
         buttonText={
@@ -735,12 +742,12 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         isFocused={isHls}
         lottieOption={isHls ? defaultOptions : null}
@@ -764,7 +771,7 @@ export function ILSBottomBar({
     function sendEmoji(emoji) {
       // Dispatch custom event here so the local user can see their own emoji
       window.dispatchEvent(
-        new CustomEvent("reaction_added", { detail: { emoji } })
+        new CustomEvent("reaction_added", { detail: { emoji } }),
       );
       handleCloseMenu();
     }
@@ -814,7 +821,7 @@ export function ILSBottomBar({
                             try {
                               await publish(emojiName);
                             } catch (err) {
-                              console.error('publish failed', err);
+                              console.error("publish failed", err);
                             }
                           }}
                         >
@@ -842,7 +849,7 @@ export function ILSBottomBar({
         Icon={ECommerceIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE
+            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE,
           );
         }}
       />
@@ -851,7 +858,7 @@ export function ILSBottomBar({
         Icon={ECommerceIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE
+            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE,
           );
         }}
         isFocused={sideBarMode === sideBarModes.ECOMMERCE}
@@ -918,7 +925,7 @@ export function ILSBottomBar({
       REACTION: "REACTION",
       ECOMMERCE: "ECOMMERCE",
     }),
-    []
+    [],
   );
 
   const otherFeatures = [
@@ -1020,9 +1027,11 @@ export function ILSBottomBar({
                             ) : icon === BottomBarButtonTypes.POLL ? (
                               <PollBTN isMobile={isMobile} isTab={isTab} />
                             ) : icon === BottomBarButtonTypes.REACTION &&
-                              meetingMode === Constants.modes.SIGNALLING_ONLY ? (
+                              meetingMode ===
+                                Constants.modes.SIGNALLING_ONLY ? (
                               <ReactionBTN isMobile={isMobile} isTab={isTab} />
-                            ) : meetingMode === Constants.modes.SIGNALLING_ONLY ? (
+                            ) : meetingMode ===
+                              Constants.modes.SIGNALLING_ONLY ? (
                               <ECommerceBTN isMobile={isMobile} isTab={isTab} />
                             ) : null}
                           </div>

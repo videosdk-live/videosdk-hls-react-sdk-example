@@ -19,7 +19,6 @@ function UploadIcon() {
       ></path>
     </svg>
   );
-  
 }
 
 export default UploadIcon;

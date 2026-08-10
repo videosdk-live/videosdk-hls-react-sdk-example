@@ -16,7 +16,7 @@ const SubmitPollListItem = ({ poll }) => {
 
   const localParticipantId = useMemo(
     () => mMeeting?.localParticipant?.id,
-    [mMeeting]
+    [mMeeting],
   );
 
   const { publish } = usePubSub(`SUBMIT_A_POLL_${poll.id}`);
@@ -29,7 +29,7 @@ const SubmitPollListItem = ({ poll }) => {
 
   const isPollActive = useMemo(
     () => (hasTimer ? isTimerPollActive : isActive),
-    [hasTimer, isTimerPollActive, isActive]
+    [hasTimer, isTimerPollActive, isActive],
   );
 
   const {
@@ -39,7 +39,7 @@ const SubmitPollListItem = ({ poll }) => {
     maxSubmittedOptions,
   } = useMemo(() => {
     const localSubmittedOption = poll.submissions.find(
-      ({ participantId }) => participantId === localParticipantId
+      ({ participantId }) => participantId === localParticipantId,
     );
 
     const totalSubmissions = poll.submissions.length;
@@ -52,7 +52,7 @@ const SubmitPollListItem = ({ poll }) => {
 
         return group;
       },
-      {}
+      {},
     );
 
     const maxSubmittedOptions = [];
@@ -102,7 +102,7 @@ const SubmitPollListItem = ({ poll }) => {
         (new Date(createdAt).getTime() +
           timeout * 1000 -
           new Date().getTime()) /
-          1000
+          1000,
       );
       setIsTimerPollActive(true);
     }
@@ -239,14 +239,14 @@ const SubmitPollListItem = ({ poll }) => {
                                 hasCorrectAnswer && isPollActive
                                   ? "bg-blue-500"
                                   : hasCorrectAnswer && !isPollActive
-                                  ? isCorrectOption
-                                    ? "bg-purple-550"
-                                    : "bg-orange-350"
-                                  : maxSubmittedOptions.includes(
-                                      option.optionId
-                                    )
-                                  ? "bg-purple-550"
-                                  : "bg-orange-350"
+                                    ? isCorrectOption
+                                      ? "bg-purple-550"
+                                      : "bg-orange-350"
+                                    : maxSubmittedOptions.includes(
+                                          option.optionId,
+                                        )
+                                      ? "bg-purple-550"
+                                      : "bg-orange-350"
                               } rounded`}
                               style={{ width: `${percentage}%` }}
                             ></div>
@@ -273,10 +273,10 @@ const SubmitPollListItem = ({ poll }) => {
                           try {
                             await publish(
                               { optionId: option.optionId },
-                              { persist: true }
+                              { persist: true },
                             );
                           } catch (err) {
-                            console.error('publish failed', err);
+                            console.error("publish failed", err);
                           }
                         }}
                         className="bg-transparent rounded-xl h-5 w-5 border-2 border-gray-300 focus:outline-none focus:border-gray-300 focus:ring-0"

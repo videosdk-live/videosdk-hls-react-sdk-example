@@ -16,7 +16,7 @@ function ILSParticipantView({ isPresenting }) {
     const pinnedParticipantId = [...pinnedParticipants.keys()].filter(
       (participantId) => {
         return participantId != localParticipant.id;
-      }
+      },
     );
     const regularParticipantIds = [...participants.keys()].filter(
       (participantId) => {
@@ -24,7 +24,7 @@ function ILSParticipantView({ isPresenting }) {
           ![...pinnedParticipants.keys()].includes(participantId) &&
           localParticipant.id != participantId
         );
-      }
+      },
     );
 
     const ids = [
@@ -65,7 +65,7 @@ const MemorizedILSParticipantView = React.memo(
   ILSParticipantView,
   (prevProps, nextProps) => {
     return prevProps.isPresenting === nextProps.isPresenting;
-  }
+  },
 );
 
 export default MemorizedILSParticipantView;

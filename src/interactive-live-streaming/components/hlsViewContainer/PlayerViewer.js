@@ -36,12 +36,12 @@ const PlayerViewer = () => {
   const lottieSize = isMobile
     ? 180
     : isTab
-    ? 180
-    : isLGDesktop
-    ? 240
-    : isXLDesktop
-    ? 240
-    : 160;
+      ? 180
+      : isLGDesktop
+        ? 240
+        : isXLDesktop
+          ? 240
+          : 160;
 
   useEffect(() => {
     if (playHls) {

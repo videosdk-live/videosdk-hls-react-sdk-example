@@ -18,7 +18,7 @@ const WaitingToJoinScreen = () => {
       setMessage((s) =>
         s.index === waitingMessages.length - 1
           ? s
-          : waitingMessages[s.index + 1]
+          : waitingMessages[s.index + 1],
       );
     }, 3000);
 

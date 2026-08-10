@@ -64,10 +64,10 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                             participantMode === Constants.modes.SEND_AND_RECV
                               ? Constants.modes.SIGNALLING_ONLY
                               : Constants.modes.SEND_AND_RECV,
-                        })
+                        }),
                       );
                     } catch (err) {
-                      console.error('publish failed', err);
+                      console.error("publish failed", err);
                     }
                     close();
                   }}

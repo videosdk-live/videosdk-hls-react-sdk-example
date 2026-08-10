@@ -87,7 +87,7 @@ const CreatePollPart = ({
                                 option.isCorrect = false;
                               }
                               return option;
-                            })
+                            }),
                           );
                         }}
                         className="bg-transparent rounded-xl h-5 w-5 border-2 border-gray-300 focus:outline-none focus:border-gray-300 focus:ring-0"
@@ -125,7 +125,7 @@ const CreatePollPart = ({
                                 }
                               }
                               return option;
-                            })
+                            }),
                           );
                         }}
                       />
@@ -136,7 +136,7 @@ const CreatePollPart = ({
                             const newOptions = options.filter(
                               ({ optionId }) => {
                                 return optionId !== item.optionId;
-                              }
+                              },
                             );
                             return newOptions;
                           });
@@ -344,7 +344,7 @@ const PollButtonPart = ({
     if (
       question.length >= 2 &&
       /^[^-\s][a-zA-Z0-9_!@#$%^&*()`~.,<>{}[\]<>?_=+\-|;:\\'\"\/\s-]+$/i.test(
-        question.trim()
+        question.trim(),
       )
     ) {
       setQuestionErr(false);
@@ -426,10 +426,10 @@ const PollButtonPart = ({
                 },
                 {
                   persist: true,
-                }
+                },
               );
             } catch (err) {
-              console.error('publishDraftPoll failed', err);
+              console.error("publishDraftPoll failed", err);
             }
             setSideBarMode(sideBarModes.POLLS);
           }
@@ -464,10 +464,10 @@ const PollButtonPart = ({
                   isActive: true,
                   index: polls.length + 1,
                 },
-                { persist: true }
+                { persist: true },
               );
             } catch (err) {
-              console.error('publishCreatePoll failed', err);
+              console.error("publishCreatePoll failed", err);
             }
             setSideBarMode(sideBarModes.POLLS);
           }

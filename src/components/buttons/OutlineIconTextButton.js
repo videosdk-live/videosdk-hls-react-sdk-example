@@ -76,10 +76,10 @@ const OutlineIconTextButton = ({
             mouseOver
               ? "border-2 border-transparent border-solid"
               : focusBGColor
-              ? `border-2 border-[${focusBGColor}] border-solid`
-              : bgColor
-              ? "border-2 border-transparent border-solid"
-              : "border-2 border-solid border-[#ffffff33]"
+                ? `border-2 border-[${focusBGColor}] border-solid`
+                : bgColor
+                  ? "border-2 border-transparent border-solid"
+                  : "border-2 border-solid border-[#ffffff33]"
           } md:m-2 m-1 cursor-pointer`}
           style={{
             transition: "all 200ms",
@@ -142,8 +142,8 @@ const OutlineIconTextButton = ({
                     isFocused
                       ? "text-[#1c1f2e]"
                       : textColor
-                      ? textColor
-                      : "text-white"
+                        ? textColor
+                        : "text-white"
                   }`}
                 >
                   {buttonText}

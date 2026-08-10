@@ -27,12 +27,12 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
   const equalSpacing = isXLDesktop
     ? 18
     : isLGDesktop
-    ? 16
-    : isTab
-    ? 14
-    : isMobile
-    ? 12
-    : 10;
+      ? 16
+      : isTab
+        ? 14
+        : isMobile
+          ? 12
+          : 10;
 
   const { publish: EndPublish } = usePubSub(`END_POLL`);
 
@@ -46,18 +46,18 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
 
   const localParticipantId = useMemo(
     () => mMeeting?.localParticipant?.id,
-    [mMeeting]
+    [mMeeting],
   );
 
   const isPollActive = useMemo(
     () => (hasTimer ? isTimerPollActive : isActive),
-    [hasTimer, isTimerPollActive, isActive]
+    [hasTimer, isTimerPollActive, isActive],
   );
 
   const { totalSubmissions, groupedSubmissionCount, maxSubmittedOptions } =
     useMemo(() => {
       const localSubmittedOption = poll?.submissions?.find(
-        ({ participantId }) => participantId === localParticipantId
+        ({ participantId }) => participantId === localParticipantId,
       );
 
       const totalSubmissions = poll?.submissions?.length || 0;
@@ -70,7 +70,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
 
           return group;
         },
-        {}
+        {},
       );
 
       const maxSubmittedOptions = [];
@@ -123,7 +123,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
         (new Date(createdAt).getTime() +
           timeout * 1000 -
           new Date().getTime()) /
-          1000
+          1000,
       );
       setIsTimerPollActive(true);
     }
@@ -163,8 +163,8 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
                 ? `Ends in ${secondsToMinutes(timeLeft)}`
                 : "Live"
               : isDraft
-              ? "Draft"
-              : "Ended"}
+                ? "Draft"
+                : "Ended"}
           </p>
         </div>
         <div className="mt-4">
@@ -197,8 +197,8 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
                             ? "bg-purple-550"
                             : "bg-customGray-850"
                           : maxSubmittedOptions.includes(item.optionId)
-                          ? "bg-purple-550"
-                          : "bg-customGray-850"
+                            ? "bg-purple-550"
+                            : "bg-customGray-850"
                       } rounded`}
                       style={{ width: `${percentage}%` }}
                     ></div>
@@ -207,7 +207,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
                   {!isDraft && (
                     <div className="ml-6 w-10 flex items-end justify-end">
                       <p className="m-0 p-0 text-white">{`${Math.floor(
-                        percentage
+                        percentage,
                       )}%`}</p>
                     </div>
                   )}
@@ -241,10 +241,10 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
                       {
                         pollId: poll.id,
                       },
-                      { persist: true }
+                      { persist: true },
                     );
                   } catch (err) {
-                    console.error('EndPublish failed', err);
+                    console.error("EndPublish failed", err);
                   }
                 }}
               >
@@ -261,7 +261,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
 const PollList = ({ panelHeight }) => {
   const { polls, draftPolls, setSideBarMode } = useMeetingAppContext();
   const { publish: RemoveFromDraftPublish } = usePubSub(
-    `REMOVE_POLL_FROM_DRAFT`
+    `REMOVE_POLL_FROM_DRAFT`,
   );
   const { publish: publishCreatePoll } = usePubSub(`CREATE_POLL`);
 
@@ -286,7 +286,7 @@ const PollList = ({ panelHeight }) => {
                     try {
                       await RemoveFromDraftPublish(
                         { pollId: poll.id },
-                        { persist: true }
+                        { persist: true },
                       );
                       //
                       await publishCreatePoll(
@@ -300,10 +300,13 @@ const PollList = ({ panelHeight }) => {
                           isActive: true,
                           index: polls.length + 1,
                         },
-                        { persist: true }
+                        { persist: true },
                       );
                     } catch (err) {
-                      console.error('RemoveFromDraftPublish/publishCreatePoll failed', err);
+                      console.error(
+                        "RemoveFromDraftPublish/publishCreatePoll failed",
+                        err,
+                      );
                     }
                     setSideBarMode(sideBarModes.POLLS);
                   }}

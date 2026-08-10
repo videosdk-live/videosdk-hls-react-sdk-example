@@ -8,7 +8,7 @@ const useIsRecording = () => {
     () =>
       recordingState === Constants.recordingEvents.RECORDING_STARTED ||
       recordingState === Constants.recordingEvents.RECORDING_STOPPING,
-    [recordingState]
+    [recordingState],
   );
 
   return isRecording;

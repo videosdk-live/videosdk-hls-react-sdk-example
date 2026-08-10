@@ -6,13 +6,13 @@ const MemoizedParticipant = React.memo(
   ParticipantView,
   (prevProps, nextProps) => {
     return prevProps.participantId === nextProps.participantId;
-  }
+  },
 );
 
 function ParticipantGrid({ participantIds, isPresenting }) {
   const { sideBarMode } = useMeetingAppContext();
   const isMobile = window.matchMedia(
-    "only screen and (max-width: 768px)"
+    "only screen and (max-width: 768px)",
   ).matches;
 
   const perRow =
@@ -20,19 +20,19 @@ function ParticipantGrid({ participantIds, isPresenting }) {
       ? participantIds.length < 4
         ? 1
         : participantIds.length < 9
-        ? 2
-        : 3
+          ? 2
+          : 3
       : participantIds.length < 5
-      ? 2
-      : participantIds.length < 7
-      ? 3
-      : participantIds.length < 9
-      ? 4
-      : participantIds.length < 10
-      ? 3
-      : participantIds.length < 11
-      ? 4
-      : 4;
+        ? 2
+        : participantIds.length < 7
+          ? 3
+          : participantIds.length < 9
+            ? 4
+            : participantIds.length < 10
+              ? 3
+              : participantIds.length < 11
+                ? 4
+                : 4;
 
   return (
     <div
@@ -40,12 +40,12 @@ function ParticipantGrid({ participantIds, isPresenting }) {
         participantIds.length < 2 && !sideBarMode && !isPresenting
           ? "md:px-16 md:py-2"
           : participantIds.length < 3 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-8"
-          : participantIds.length < 4 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-4"
-          : participantIds.length > 4 && !sideBarMode && !isPresenting
-          ? "md:px-14"
-          : "md:px-0"
+            ? "md:px-16 md:py-8"
+            : participantIds.length < 4 && !sideBarMode && !isPresenting
+              ? "md:px-16 md:py-4"
+              : participantIds.length > 4 && !sideBarMode && !isPresenting
+                ? "md:px-14"
+                : "md:px-0"
       }`}
     >
       <div className="flex flex-col w-full h-full">
@@ -74,8 +74,8 @@ function ParticipantGrid({ participantIds, isPresenting }) {
                             ? participantIds.length === 1
                               ? "md:h-48 md:w-44 xl:w-52 xl:h-48 "
                               : participantIds.length === 2
-                              ? "md:w-44 xl:w-56"
-                              : "md:w-44 xl:w-48"
+                                ? "md:w-44 xl:w-56"
+                                : "md:w-44 xl:w-48"
                             : "w-full"
                         } items-center justify-center h-full ${
                           participantIds.length === 1
@@ -89,7 +89,7 @@ function ParticipantGrid({ participantIds, isPresenting }) {
                   })}
               </div>
             );
-          }
+          },
         )}
       </div>
     </div>
@@ -104,5 +104,5 @@ export const MemoizedParticipantGrid = React.memo(
         JSON.stringify(nextProps.participantIds) &&
       prevProps.isPresenting === nextProps.isPresenting
     );
-  }
+  },
 );

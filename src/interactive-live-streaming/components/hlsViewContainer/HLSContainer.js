@@ -23,12 +23,12 @@ const HLSContainer = ({ width }) => {
   const rowSpacing = isMobile
     ? 12
     : isTab
-    ? 14
-    : isLGDesktop
-    ? 16
-    : isXLDesktop
-    ? 24
-    : 0;
+      ? 14
+      : isLGDesktop
+        ? 16
+        : isXLDesktop
+          ? 24
+          : 0;
 
   const gutter = 4;
 

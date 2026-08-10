@@ -60,7 +60,7 @@ const ChatInput = ({ inputHeight }) => {
                 try {
                   await publish(messageText, { persist: true });
                 } catch (err) {
-                  console.error('publish failed', err);
+                  console.error("publish failed", err);
                 }
                 setTimeout(() => {
                   setMessage("");
@@ -95,7 +95,7 @@ const ChatInput = ({ inputHeight }) => {
                 try {
                   await publish(messageText, { persist: true });
                 } catch (err) {
-                  console.error('publish failed', err);
+                  console.error("publish failed", err);
                 }
                 setTimeout(() => {
                   setMessage("");

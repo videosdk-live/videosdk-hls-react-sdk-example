@@ -63,8 +63,8 @@ export function ParticipantPanel({ panelHeight }) {
     const notRaised = participantIds.filter(
       (pID) =>
         raisedHandsParticipants.findIndex(
-          ({ participantId: rPID }) => rPID === pID
-        ) === -1
+          ({ participantId: rPID }) => rPID === pID,
+        ) === -1,
     );
 
     const raisedSorted = raisedHandsParticipants.sort((a, b) => {
@@ -94,7 +94,7 @@ export function ParticipantPanel({ panelHeight }) {
   const part = useMemo(
     () => filterParticipants(sortedRaisedHandsParticipants, participants),
 
-    [sortedRaisedHandsParticipants, participants]
+    [sortedRaisedHandsParticipants, participants],
   );
 
   return (

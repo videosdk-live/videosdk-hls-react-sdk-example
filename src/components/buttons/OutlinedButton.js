@@ -103,10 +103,10 @@ export const OutlinedButton = ({
             mouseOver
               ? "border-2 border-transparent border-solid"
               : borderColor
-              ? `border-2 border-[${borderColor}] border-solid`
-              : bgColor
-              ? "border-2 border-transparent border-solid"
-              : "border-2 border-solid border-[#ffffff33]"
+                ? `border-2 border-[${borderColor}] border-solid`
+                : bgColor
+                  ? "border-2 border-transparent border-solid"
+                  : "border-2 border-solid border-[#ffffff33]"
           } md:m-2 m-1`}
           style={{
             transition: "all 200ms",
@@ -172,8 +172,8 @@ export const OutlinedButton = ({
                         color: isFocused
                           ? focusIconColor || "#1C1F2E"
                           : color
-                          ? color
-                          : "#fff",
+                            ? color
+                            : "#fff",
                         height: iconSize,
                         width: iconSize,
                       }}
@@ -181,8 +181,8 @@ export const OutlinedButton = ({
                         isFocused
                           ? focusIconColor || "#1C1F2E"
                           : color
-                          ? color
-                          : "#fff"
+                            ? color
+                            : "#fff"
                       }
                     />
                     {badge && (
