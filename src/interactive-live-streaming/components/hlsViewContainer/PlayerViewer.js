@@ -98,10 +98,8 @@ const PlayerViewer = () => {
             autoPlay={true}
             controls
             style={{ width: "100%", height: "100%" }}
-            playsinline
             playsInline
             muted={true}
-            playing
             onError={(err) => {
               console.log(err, "hls video error");
             }}

@@ -197,24 +197,23 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <Popover.Button
+                        className="flex items-center justify-center mt-1 mr-1"
+                        onClick={() => {
+                          getMics(mMeeting.getMics);
+                        }}
+                      >
                         <div
                           ref={btnRef}
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getMics(mMeeting.getMics);
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: mMeeting.localMicOn ? "white" : "black",
                             }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: mMeeting.localMicOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
+                          />
                         </div>
                       </Popover.Button>
                       <Transition
@@ -238,6 +237,7 @@ export function ILSBottomBar({
                                 <div className="flex flex-col">
                                   {mics.map(({ deviceId, label }, index) => (
                                     <div
+                                      key={`mics_${deviceId}`}
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectMicDeviceId &&
                                         "bg-gray-150"
@@ -248,7 +248,6 @@ export function ILSBottomBar({
                                           deviceId === selectMicDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`mics_${deviceId}`}
                                         onClick={async () => {
                                           setSelectMicDeviceId(deviceId);
                                           try {
@@ -361,24 +360,23 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <Popover.Button
+                        className="flex items-center justify-center mt-1 mr-1"
+                        onClick={() => {
+                          getWebcams(mMeeting?.getWebcams);
+                        }}
+                      >
                         <div
                           ref={btnRef}
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getWebcams(mMeeting?.getWebcams);
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: localWebcamOn ? "white" : "black",
                             }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: localWebcamOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
+                          />
                         </div>
                       </Popover.Button>
                       <Transition
@@ -402,6 +400,7 @@ export function ILSBottomBar({
                                 <div className="flex flex-col">
                                   {webcams.map(({ deviceId, label }, index) => (
                                     <div
+                                      key={`output_webcams_${deviceId}`}
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectWebcamDeviceId &&
                                         "bg-gray-150"
@@ -412,7 +411,6 @@ export function ILSBottomBar({
                                           deviceId === selectWebcamDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`output_webcams_${deviceId}`}
                                         onClick={async () => {
                                           setSelectWebcamDeviceId(deviceId);
                                           try {
@@ -785,7 +783,7 @@ export function ILSBottomBar({
         <Popover className="relative">
           {({ open }) => (
             <>
-              <Popover.Button>
+              <Popover.Button as="div">
                 <OutlinedButton
                   Icon={ReactionIcon}
                   onClick={(e) => {
@@ -990,6 +988,7 @@ export function ILSBottomBar({
                       {otherFeatures.map(({ icon }) => {
                         return (
                           <div
+                            key={`bottom-bar-${icon}`}
                             className={`grid items-center justify-center ${
                               icon === BottomBarButtonTypes.MEETING_ID_COPY
                                 ? "col-span-7 sm:col-span-5 md:col-span-3"

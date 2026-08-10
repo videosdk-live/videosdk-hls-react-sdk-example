@@ -8,20 +8,20 @@ const ProductPart = () => {
   return (
     <div>
       <div className="flex flex-col xl:m-4 m-2">
-        <div class="carousel">
-          <div class="carousel-inner">
+        <div className="carousel">
+          <div className="carousel-inner">
             <input
-              class="carousel-open hidden"
+              className="carousel-open hidden"
               type="radio"
               id="carousel-1"
               name="carousel"
               aria-hidden="true"
-              hidden=""
-              checked="checked"
+              hidden
+              defaultChecked
             />
-            <div id="carousel-1" class="carousel-item ">
+            <div id="carousel-item-1" className="carousel-item ">
               <div className="flex flex-1 items-center justify-center w-full h-full rounded bg-white">
-                <img src={product1Image} />
+                <img src={product1Image} alt="Product 1" />
               </div>
               <div className="mt-5">
                 <p className="text-base font-semibold text-white text-justify">
@@ -40,16 +40,16 @@ const ProductPart = () => {
               </div>
             </div>
             <input
-              class="carousel-open hidden"
+              className="carousel-open hidden"
               type="radio"
               id="carousel-2"
               name="carousel"
               aria-hidden="true"
-              hidden=""
+              hidden
             />
-            <div id="carousel-2" class="carousel-item">
+            <div id="carousel-item-2" className="carousel-item">
               <div className="flex flex-1 items-center justify-center w-full h-full rounded bg-pink-250">
-                <img src={product2Image} />
+                <img src={product2Image} alt="Product 2" />
               </div>
               <div className="mt-5">
                 <p className="text-base font-semibold text-white text-justify">
@@ -68,16 +68,16 @@ const ProductPart = () => {
               </div>
             </div>
             <input
-              class="carousel-open hidden"
+              className="carousel-open hidden"
               type="radio"
               id="carousel-3"
               name="carousel"
               aria-hidden="true"
-              hidden=""
+              hidden
             />
-            <div id="carousel-3" class="carousel-item">
+            <div id="carousel-item-3" className="carousel-item">
               <div className="flex flex-1 items-center justify-center w-full h-full rounded bg-green-750">
-                <img src={product3Image} />
+                <img src={product3Image} alt="Product 3" />
               </div>
               <div className="mt-5">
                 <p className="text-base font-semibold text-white text-justify">
@@ -95,22 +95,22 @@ const ProductPart = () => {
                 </p>
               </div>
             </div>
-            <label for="carousel-3" class="carousel-control prev control-1">
+            <label htmlFor="carousel-3" className="carousel-control prev control-1">
               ‹
             </label>
-            <label for="carousel-2" class="carousel-control next control-1">
+            <label htmlFor="carousel-2" className="carousel-control next control-1">
               ›
             </label>
-            <label for="carousel-1" class="carousel-control prev control-2">
+            <label htmlFor="carousel-1" className="carousel-control prev control-2">
               ‹
             </label>
-            <label for="carousel-3" class="carousel-control next control-2">
+            <label htmlFor="carousel-3" className="carousel-control next control-2">
               ›
             </label>
-            <label for="carousel-2" class="carousel-control prev control-3">
+            <label htmlFor="carousel-2" className="carousel-control prev control-3">
               ‹
             </label>
-            <label for="carousel-1" class="carousel-control next control-3">
+            <label htmlFor="carousel-1" className="carousel-control next control-3">
               ›
             </label>
           </div>

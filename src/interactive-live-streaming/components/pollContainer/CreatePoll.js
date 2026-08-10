@@ -69,7 +69,10 @@ const CreatePollPart = ({
             <div>
               {options.map((item) => {
                 return (
-                  <div className="flex items-center mb-4">
+                  <div
+                    key={`create-poll-option-${item.optionId}`}
+                    className="flex items-center mb-4"
+                  >
                     {isMarkAsCorrectChecked && item.option.length !== 0 && (
                       <Input
                         type="checkbox"
@@ -109,7 +112,7 @@ const CreatePollPart = ({
                             : "bg-customGray-900"
                         } text-white focus:ring-0 rounded-l`}
                         placeholder="Add your options"
-                        autocomplete="off"
+                        autoComplete="off"
                         value={item.option}
                         onBlur={_handleKeyDown}
                         onChange={(e) => {
@@ -188,7 +191,6 @@ const CreatePollPart = ({
             <input
               type={"text"}
               placeholder="Add your options"
-              inputref={createOptionRef}
               className={`border-none ${
                 option.isCorrect && option.option
                   ? "bg-purple-550"
@@ -218,7 +220,7 @@ const CreatePollPart = ({
               <input
                 type={"text"}
                 placeholder="Add your options"
-                autocomplete="off"
+                autoComplete="off"
                 onChange={(e) => {}}
                 onFocus={(e) => {
                   _handleKeyDown(e);
@@ -284,7 +286,11 @@ const CreatePollPart = ({
                   >
                     {pollTimerArr.map((item) => {
                       return (
-                        <option className="cursor-pointer" value={item.value}>
+                        <option
+                          key={`poll-timer-${item.value}`}
+                          className="cursor-pointer"
+                          value={item.value}
+                        >
                           {item.Label}
                         </option>
                       );

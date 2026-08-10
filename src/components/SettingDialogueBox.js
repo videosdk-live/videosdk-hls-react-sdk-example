@@ -206,6 +206,7 @@ export default function SettingDialogueBox({
                           ].map(({ value, label }) =>
                             label === "Audio" || label === "Video" ? (
                               <button
+                                key={`setting-tab-${value}`}
                                 className={`inline-flex items-center justify-center px-4 py-2 border ${
                                   setting === value
                                     ? "bg-purple-350 border-transparent border-purple-350"
@@ -228,7 +229,7 @@ export default function SettingDialogueBox({
                         <div className="w-full">
                           <div className="grid container grid-flow-col">
                             <div className="grid grid-cols-12">
-                              <div class="col-span-7">
+                              <div className="col-span-7">
                                 <div className="flex flex-col mt-6">
                                   <p className="text-sm text-left text-white font-bold">
                                     Microphone
@@ -238,18 +239,16 @@ export default function SettingDialogueBox({
                                     <Popover className="relative">
                                       {({ close }) => (
                                         <>
-                                          <Popover.Button className="flex  w-full ">
-                                            <button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
-                                              {selectedMicLabel
-                                                ? selectedMicLabel
-                                                : "Select"}
-                                              <ChevronDownIcon
-                                                className="h-4 w-4"
-                                                style={{
-                                                  color: "white",
-                                                }}
-                                              />
-                                            </button>
+                                          <Popover.Button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
+                                            {selectedMicLabel
+                                              ? selectedMicLabel
+                                              : "Select"}
+                                            <ChevronDownIcon
+                                              className="h-4 w-4"
+                                              style={{
+                                                color: "white",
+                                              }}
+                                            />
                                           </Popover.Button>
                                           <Transition
                                             as={Fragment}
@@ -273,13 +272,13 @@ export default function SettingDialogueBox({
                                                             item?.kind ===
                                                               "audioinput" && (
                                                               <div
-                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left 
+                                                                key={`mics_${index}`}
+                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left
                                                             `}
                                                               >
                                                                 <button
-                                                                  className={`flex flex-1 w-full 
+                                                                  className={`flex flex-1 w-full
                                                               `}
-                                                                  key={`mics_${index}`}
                                                                   value={
                                                                     item?.deviceId
                                                                   }
@@ -325,7 +324,7 @@ export default function SettingDialogueBox({
                                 </div>
                               </div>
 
-                              <div class="col-span-5">
+                              <div className="col-span-5">
                                 <div className="p-4 relative mt-0 md:mt-10 ">
                                   <div
                                     className="flex flex-1 relative w-1/2 md:w-full h-1/2 md:h-auto overflow-hidden rounded"
@@ -356,18 +355,16 @@ export default function SettingDialogueBox({
                                     <Popover className="relative">
                                       {({ close }) => (
                                         <>
-                                          <Popover.Button className="flex  w-full ">
-                                            <button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
-                                              {selectedWebcamLabel
-                                                ? selectedWebcamLabel
-                                                : "Select"}
-                                              <ChevronDownIcon
-                                                className="h-4 w-4"
-                                                style={{
-                                                  color: "white",
-                                                }}
-                                              />
-                                            </button>
+                                          <Popover.Button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
+                                            {selectedWebcamLabel
+                                              ? selectedWebcamLabel
+                                              : "Select"}
+                                            <ChevronDownIcon
+                                              className="h-4 w-4"
+                                              style={{
+                                                color: "white",
+                                              }}
+                                            />
                                           </Popover.Button>
                                           <Transition
                                             as={Fragment}
@@ -391,13 +388,13 @@ export default function SettingDialogueBox({
                                                             item?.kind ===
                                                               "videoinput" && (
                                                               <div
-                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left 
+                                                                key={`webcam_${index}`}
+                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left
                                                             `}
                                                               >
                                                                 <button
-                                                                  className={`flex flex-1 w-full 
+                                                                  className={`flex flex-1 w-full
                                                               `}
-                                                                  key={`webcam_${index}`}
                                                                   value={
                                                                     item?.deviceId
                                                                   }

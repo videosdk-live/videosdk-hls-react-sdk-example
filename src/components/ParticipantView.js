@@ -359,6 +359,7 @@ export const CornerDisplayName = ({
                                 {qualityStateArray.map((item, index) => {
                                   return (
                                     <div
+                                      key={`quality-row-${index}`}
                                       className="flex"
                                       style={{
                                         borderBottom:
