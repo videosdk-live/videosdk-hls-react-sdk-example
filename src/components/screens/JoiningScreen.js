@@ -11,6 +11,7 @@ import WebcamOffIcon from "../../icons/WebcamOffIcon";
 import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import MicOffIcon from "../../icons/MicOffIcon";
 import MicOnIcon from "../../icons/Bottombar/MicOnIcon";
+import RunPrecallTest from "../RunPrecallTest";
 
 export function JoiningScreen({
   participantName,
@@ -35,6 +36,8 @@ export function JoiningScreen({
   });
 
   const [videoTrack, setVideoTrack] = useState(null);
+  const [customVideoStream, setCustomVideoStream] = useState(null);
+  const [customAudioStream, setCustomAudioStream] = useState(null);
 
   const [dlgMuted, setDlgMuted] = useState(false);
   const [dlgDevices, setDlgDevices] = useState(false);
@@ -70,6 +73,7 @@ export function JoiningScreen({
     if (videoTrack) {
       videoTrack.stop();
       setVideoTrack(null);
+      setCustomVideoStream(null);
       setWebcamOn(false);
     }
   };
@@ -98,6 +102,7 @@ export function JoiningScreen({
       audioTrack.stop();
 
       setAudioTrack(null);
+      setCustomAudioStream(null);
       setMicOn(false);
     }
   };
@@ -129,6 +134,7 @@ export function JoiningScreen({
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { deviceId },
     });
+    setCustomVideoStream(stream);
     const videoTracks = stream.getVideoTracks();
 
     const videoTrack = videoTracks.length ? videoTracks[0] : null;
@@ -141,6 +147,7 @@ export function JoiningScreen({
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId },
     });
+    setCustomAudioStream(stream);
     const audioTracks = stream.getAudioTracks();
 
     const audioTrack = audioTracks.length ? audioTracks[0] : null;
@@ -155,14 +162,16 @@ export function JoiningScreen({
         const audioConstraints = {
           audio: true,
         };
-  
-        const stream = await navigator.mediaDevices.getUserMedia(
-          audioConstraints
-        );
+
+        const stream =
+          await navigator.mediaDevices.getUserMedia(audioConstraints);
+
+        setCustomAudioStream(stream);
+
         const audioTracks = stream.getAudioTracks();
-  
+
         const audioTrack = audioTracks.length ? audioTracks[0] : null;
-  
+
         setAudioTrack(audioTrack);
         if (firstTime) {
           setSelectedMic({
@@ -172,7 +181,6 @@ export function JoiningScreen({
       } catch (error) {
         console.log("Failed to access microphone", error);
       }
-     
     }
 
     if (webcam) {
@@ -183,9 +191,9 @@ export function JoiningScreen({
         },
       };
 
-      const stream = await navigator.mediaDevices.getUserMedia(
-        videoConstraints
-      );
+      const stream =
+        await navigator.mediaDevices.getUserMedia(videoConstraints);
+      setCustomVideoStream(stream);
       const videoTracks = stream.getVideoTracks();
 
       const videoTrack = videoTracks.length ? videoTracks[0] : null;
@@ -248,6 +256,7 @@ export function JoiningScreen({
         const currentAudioTrack = audioTrackRef.current;
         currentAudioTrack && currentAudioTrack.stop();
         audioTrackRef.current = null;
+        setCustomAudioStream(null);
       };
     } catch (error) {
       console.log("Error in audio track", error);
@@ -373,6 +382,14 @@ export function JoiningScreen({
                 <div className="flex items-center justify-center p-1.5 sm:p-4 lg:p-6">
                   <div className="relative w-full md:pl-4 sm:pl-10 pl-5  md:pr-4 sm:pr-10 pr-5">
                     <div className="w-full relative" style={{ height: "45vh" }}>
+                      <div
+                        className={`absolute z-10 ${isMobile ? "right-0" : "right-2 top-2"}`}
+                      >
+                        <RunPrecallTest
+                          videoStream={customVideoStream}
+                          audioStream={customAudioStream}
+                        />
+                      </div>
                       <video
                         autoPlay
                         playsInline
