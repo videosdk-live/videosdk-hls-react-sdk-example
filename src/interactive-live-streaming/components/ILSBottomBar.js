@@ -333,22 +333,8 @@ export function ILSBottomBar({
         <OutlinedButton
           Icon={localWebcamOn ? WebcamOnIcon : WebcamOffIcon}
           onClick={async () => {
-            let track;
-            if (!localWebcamOn) {
-              try {
-                track = await createCameraVideoTrack({
-                  optimizationMode: "motion",
-                  encoderConfig: "h540p_w960p",
-                  facingMode: "environment",
-                  multiStream: false,
-                  cameraId: selectWebcamDeviceId,
-                });
-              } catch (err) {
-                console.error("createCameraVideoTrack failed", err);
-              }
-            }
             try {
-              await mMeeting.toggleWebcam(track);
+              await mMeeting.toggleWebcam();
             } catch (err) {
               console.error("toggleWebcam failed", err);
             }
