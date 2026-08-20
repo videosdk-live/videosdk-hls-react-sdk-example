@@ -246,13 +246,13 @@ export default function DropDown({
                                   className={`flex flex-1 w-full text-left`}
                                   value={item?.deviceId}
                                   onClick={async () => {
-                                    setSelectedMic((s) => ({
-                                      ...s,
-                                      label: item?.label,
-                                      id: item?.deviceId,
-                                    }));
                                     try {
                                       await changeMic(item?.deviceId);
+                                      setSelectedMic((s) => ({
+                                        ...s,
+                                        label: item?.label,
+                                        id: item?.deviceId,
+                                      }));
                                     } catch (e) {
                                       console.log("Error in changeMic", e);
                                     }

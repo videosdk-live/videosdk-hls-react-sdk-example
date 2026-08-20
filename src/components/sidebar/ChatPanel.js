@@ -59,12 +59,12 @@ const ChatInput = ({ inputHeight }) => {
               if (messageText.length > 0) {
                 try {
                   await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
                 } catch (err) {
                   console.error("publish failed", err);
                 }
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
                 input.current?.focus();
               }
             }}
@@ -94,12 +94,12 @@ const ChatInput = ({ inputHeight }) => {
               if (messageText.length > 0) {
                 try {
                   await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
                 } catch (err) {
                   console.error("publish failed", err);
                 }
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
                 input.current?.focus();
               }
             }

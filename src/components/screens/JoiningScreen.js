@@ -361,8 +361,9 @@ export function JoiningScreen({
         await requestAudioVideoPermission(Constants.permission.VIDEO);
       }
     } catch (error) {
-      await requestAudioVideoPermission();
       console.log(error);
+      await requestAudioVideoPermission(Constants.permission.AUDIO);
+      await requestAudioVideoPermission(Constants.permission.VIDEO);
     }
   };
 
@@ -384,27 +385,33 @@ export function JoiningScreen({
   };
 
   const getAudioDevices = async () => {
+    if (!permissonAvaialble.current?.isMicrophonePermissionAllowed) return;
+
+    let mics = [];
     try {
-      if (permissonAvaialble.current?.isMicrophonePermissionAllowed) {
-        let mics = await getMicrophones();
-        let speakers = await getPlaybackDevices();
-        const hasMic = mics.length > 0;
-        if (hasMic) {
-          startMuteListener();
-        }
-        if (!selectedSpeaker?.id && speakers[0]) {
-          setSelectedSpeaker({
-            id: speakers[0].deviceId,
-            label: speakers[0].label,
-          });
-        }
-        if (!selectedMic?.id && mics[0]) {
-          setSelectedMic({ id: mics[0].deviceId, label: mics[0].label });
-        }
-        setDevices((devices) => ({ ...devices, mics, speakers }));
+      mics = await getMicrophones();
+      if (mics.length > 0) {
+        startMuteListener();
       }
+      if (!selectedMic?.id && mics[0]) {
+        setSelectedMic({ id: mics[0].deviceId, label: mics[0].label });
+      }
+      setDevices((devices) => ({ ...devices, mics }));
     } catch (err) {
-      console.log("Error in getting audio devices", err);
+      console.log("Error in getting microphones", err);
+    }
+
+    try {
+      const speakers = await getPlaybackDevices();
+      if (!selectedSpeaker?.id && speakers[0]) {
+        setSelectedSpeaker({
+          id: speakers[0].deviceId,
+          label: speakers[0].label,
+        });
+      }
+      setDevices((devices) => ({ ...devices, speakers }));
+    } catch (err) {
+      console.log("Error in getting playback devices", err);
     }
   };
 
@@ -485,7 +492,7 @@ export function JoiningScreen({
 
                       <div className="absolute xl:bottom-6 bottom-4 left-0 right-0">
                         <div className="container grid grid-flow-col space-x-4 items-center justify-center md:-m-2">
-                          {isMicrophonePermissionAllowed ? (
+                          {isMicrophonePermissionAllowed === true ? (
                             <ButtonWithTooltip
                               onClick={_toggleMic}
                               onState={micOn}
@@ -493,11 +500,11 @@ export function JoiningScreen({
                               OnIcon={MicOnIcon}
                               OffIcon={MicOffIcon}
                             />
-                          ) : (
+                          ) : isMicrophonePermissionAllowed === false ? (
                             <MicPermissionDenied />
-                          )}
+                          ) : null}
 
-                          {isCameraPermissionAllowed ? (
+                          {isCameraPermissionAllowed === true ? (
                             <ButtonWithTooltip
                               onClick={_toggleWebcam}
                               onState={webcamOn}
@@ -505,9 +512,9 @@ export function JoiningScreen({
                               OnIcon={WebcamOnIcon}
                               OffIcon={WebcamOffIcon}
                             />
-                          ) : (
+                          ) : isCameraPermissionAllowed === false ? (
                             <CameraPermissionDenied />
-                          )}
+                          ) : null}
                         </div>
                       </div>
                     </div>

@@ -29,9 +29,9 @@ export const MeetingAppProvider = ({ children }) => {
     label: null,
   });
   const [isCameraPermissionAllowed, setIsCameraPermissionAllowed] =
-    useState(false);
+    useState(null);
   const [isMicrophonePermissionAllowed, setIsMicrophonePermissionAllowed] =
-    useState(false);
+    useState(null);
 
   const polls = useMemo(
     () =>
