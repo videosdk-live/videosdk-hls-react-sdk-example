@@ -5,7 +5,7 @@ const API_AUTH_URL = process.env.REACT_APP_AUTH_URL;
 export const getToken = async () => {
   if (VIDEOSDK_TOKEN && API_AUTH_URL) {
     console.error(
-      "Error: Provide only ONE PARAMETER - either Token or Auth API"
+      "Error: Provide only ONE PARAMETER - either Token or Auth API",
     );
   } else if (VIDEOSDK_TOKEN) {
     return VIDEOSDK_TOKEN;

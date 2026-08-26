@@ -1,4 +1,8 @@
-import { useMeeting, useParticipant, VideoPlayer } from "@videosdk.live/react-sdk";
+import {
+  useMeeting,
+  useParticipant,
+  VideoPlayer,
+} from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef } from "react";
 import ReactPlayer from "react-player";
 import MicOffSmallIcon from "../icons/MicOffSmallIcon";
@@ -66,7 +70,7 @@ export function PresenterView({ height }) {
     >
       <audio autoPlay playsInline controls={false} ref={audioPlayer} />
       <div className={"video-contain absolute h-full w-full"}>
-    <VideoPlayer
+        <VideoPlayer
           participantId={presenterId} // Required
           type="share" // "video" or "share"
           containerStyle={{
@@ -114,9 +118,13 @@ export function PresenterView({ height }) {
               <div className="mt-8">
                 <button
                   className="bg-purple-550 text-white px-4 py-2 rounded text-sm text-center font-medium"
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation();
-                    mMeeting.toggleScreenShare();
+                    try {
+                      await mMeeting.toggleScreenShare();
+                    } catch (err) {
+                      console.error("toggleScreenShare failed", err);
+                    }
                   }}
                 >
                   STOP PRESENTING

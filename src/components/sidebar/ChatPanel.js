@@ -54,13 +54,17 @@ const ChatInput = ({ inputHeight }) => {
             disabled={message.length < 2}
             type="submit"
             className="p-1 focus:outline-none focus:shadow-outline"
-            onClick={() => {
+            onClick={async () => {
               const messageText = message.trim();
               if (messageText.length > 0) {
-                publish(messageText, { persist: true });
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
+                try {
+                  await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
+                } catch (err) {
+                  console.error("publish failed", err);
+                }
                 input.current?.focus();
               }
             }}
@@ -82,16 +86,20 @@ const ChatInput = ({ inputHeight }) => {
           onChange={(e) => {
             setMessage(e.target.value);
           }}
-          onKeyPress={(e) => {
+          onKeyPress={async (e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               const messageText = message.trim();
 
               if (messageText.length > 0) {
-                publish(messageText, { persist: true });
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
+                try {
+                  await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
+                } catch (err) {
+                  console.error("publish failed", err);
+                }
                 input.current?.focus();
               }
             }

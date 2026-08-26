@@ -19,6 +19,19 @@ export const MeetingAppProvider = ({ children }) => {
   const [endedPolls, setEndedPolls] = useState([]);
   const [afterMeetingJoinedHLSState, setAfterMeetingJoinedHLSState] =
     useState(null);
+  const [selectedMic, setSelectedMic] = useState({ id: null, label: null });
+  const [selectedWebcam, setSelectedWebcam] = useState({
+    id: null,
+    label: null,
+  });
+  const [selectedSpeaker, setSelectedSpeaker] = useState({
+    id: null,
+    label: null,
+  });
+  const [isCameraPermissionAllowed, setIsCameraPermissionAllowed] =
+    useState(null);
+  const [isMicrophonePermissionAllowed, setIsMicrophonePermissionAllowed] =
+    useState(null);
 
   const polls = useMemo(
     () =>
@@ -27,7 +40,7 @@ export const MeetingAppProvider = ({ children }) => {
         isActive:
           endedPolls.findIndex(({ pollId }) => pollId === poll.id) === -1,
       })),
-    [createdPolls, endedPolls]
+    [createdPolls, endedPolls],
   );
 
   const useRaisedHandParticipants = () => {
@@ -39,7 +52,7 @@ export const MeetingAppProvider = ({ children }) => {
       const newItem = { participantId, raisedHandOn: new Date().getTime() };
 
       const participantFound = raisedHandsParticipants.findIndex(
-        ({ participantId: pID }) => pID === participantId
+        ({ participantId: pID }) => pID === participantId,
       );
 
       if (participantFound === -1) {
@@ -90,6 +103,11 @@ export const MeetingAppProvider = ({ children }) => {
         endedPolls,
         afterMeetingJoinedHLSState,
         sideBarMode,
+        selectedMic,
+        selectedWebcam,
+        selectedSpeaker,
+        isCameraPermissionAllowed,
+        isMicrophonePermissionAllowed,
         // setters
         setRaisedHandsParticipants,
         setDraftPolls,
@@ -97,6 +115,11 @@ export const MeetingAppProvider = ({ children }) => {
         setEndedPolls,
         setAfterMeetingJoinedHLSState,
         setSideBarMode,
+        setSelectedMic,
+        setSelectedWebcam,
+        setSelectedSpeaker,
+        setIsCameraPermissionAllowed,
+        setIsMicrophonePermissionAllowed,
 
         polls,
         useRaisedHandParticipants,

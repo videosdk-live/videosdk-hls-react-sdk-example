@@ -36,12 +36,12 @@ const PlayerViewer = () => {
   const lottieSize = isMobile
     ? 180
     : isTab
-    ? 180
-    : isLGDesktop
-    ? 240
-    : isXLDesktop
-    ? 240
-    : 160;
+      ? 180
+      : isLGDesktop
+        ? 240
+        : isXLDesktop
+          ? 240
+          : 160;
 
   useEffect(() => {
     if (playHls) {
@@ -98,10 +98,8 @@ const PlayerViewer = () => {
             autoPlay={true}
             controls
             style={{ width: "100%", height: "100%" }}
-            playsinline
             playsInline
             muted={true}
-            playing
             onError={(err) => {
               console.log(err, "hls video error");
             }}

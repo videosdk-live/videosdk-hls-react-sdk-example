@@ -65,21 +65,21 @@ const SideBarTabView = ({
                           sideBarMode.slice(1).toLowerCase() || ""
                       } (${new Map(participants)?.size})`
                     : sideBarMode === sideBarModes.CREATE_POLL
-                    ? "Create a poll"
-                    : sideBarMode === sideBarModes.POLLS
-                    ? polls?.length >= 1 || draftPolls?.length >= 1
-                      ? `Polls ${
-                          polls?.length || draftPolls?.length
-                            ? `(${polls?.length || draftPolls?.length})`
-                            : ""
-                        }`
-                      : meetingMode === Constants.modes.SIGNALLING_ONLY
-                      ? `Polls ${polls?.length ? `(${polls?.length})` : ""}`
-                      : "Create a poll"
-                    : sideBarMode === sideBarModes.ECOMMERCE
-                    ? "Products"
-                    : sideBarMode.charAt(0).toUpperCase() +
-                        sideBarMode.slice(1).toLowerCase() || ""}
+                      ? "Create a poll"
+                      : sideBarMode === sideBarModes.POLLS
+                        ? polls?.length >= 1 || draftPolls?.length >= 1
+                          ? `Polls ${
+                              polls?.length || draftPolls?.length
+                                ? `(${polls?.length || draftPolls?.length})`
+                                : ""
+                            }`
+                          : meetingMode === Constants.modes.SIGNALLING_ONLY
+                            ? `Polls ${polls?.length ? `(${polls?.length})` : ""}`
+                            : "Create a poll"
+                        : sideBarMode === sideBarModes.ECOMMERCE
+                          ? "Products"
+                          : sideBarMode.charAt(0).toUpperCase() +
+                              sideBarMode.slice(1).toLowerCase() || ""}
                 </p>
                 <button
                   className="text-white"
@@ -133,22 +133,22 @@ export function SidebarConatiner({
   const panelHeaderHeight = isMobile
     ? 40
     : isTab
-    ? 44
-    : isLGDesktop
-    ? 48
-    : isXLDesktop
-    ? 52
-    : 0;
+      ? 44
+      : isLGDesktop
+        ? 48
+        : isXLDesktop
+          ? 52
+          : 0;
 
   const panelHeaderPadding = isMobile
     ? 6
     : isTab
-    ? 8
-    : isLGDesktop
-    ? 10
-    : isXLDesktop
-    ? 12
-    : 0;
+      ? 8
+      : isLGDesktop
+        ? 10
+        : isXLDesktop
+          ? 12
+          : 0;
 
   const handleClose = () => {
     setSideBarMode(null);

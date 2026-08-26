@@ -1,4 +1,4 @@
-import {  CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import { Constants } from "@videosdk.live/react-sdk";
 import React, { useState } from "react";
 
@@ -7,8 +7,6 @@ export function MeetingDetailsScreen({
   _handleOnCreateMeeting,
   participantName,
   setParticipantName,
-  videoTrack,
-  setVideoTrack,
   onClickStartMeeting,
   setMeetingMode,
   meetingMode,
@@ -76,10 +74,6 @@ export function MeetingDetailsScreen({
             }  text-white px-2 py-3 rounded-xl mt-5`}
             onClick={(e) => {
               if (iscreateMeetingClicked) {
-                if (videoTrack) {
-                  videoTrack.stop();
-                  setVideoTrack(null);
-                }
                 onClickStartMeeting();
               } else {
                 if (studioCode.match("\\w{4}\\-\\w{4}\\-\\w{4}")) {
@@ -91,9 +85,9 @@ export function MeetingDetailsScreen({
             {iscreateMeetingClicked
               ? "Start a meeting"
               : isJoinMeetingClicked &&
-                meetingMode === Constants.modes.SEND_AND_RECV
-              ? "Join Studio"
-              : "Join Streaming Room"}
+                  meetingMode === Constants.modes.SEND_AND_RECV
+                ? "Join Studio"
+                : "Join Streaming Room"}
           </button>
         </>
       )}

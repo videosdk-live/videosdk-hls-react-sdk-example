@@ -38,16 +38,24 @@ export function TopBar({ topBarHeight }) {
           recordingState === Constants.recordingEvents.RECORDING_STARTING ||
           recordingState === Constants.recordingEvents.RECORDING_STOPPING,
       }),
-      [recordingState]
+      [recordingState],
     );
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isRecording = isRecordingRef.current;
 
       if (isRecording) {
-        stopRecording();
+        try {
+          await stopRecording();
+        } catch (err) {
+          console.error("stopRecording failed", err);
+        }
       } else {
-        startRecording();
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error("startRecording failed", err);
+        }
       }
     };
 
@@ -61,12 +69,13 @@ export function TopBar({ topBarHeight }) {
           recordingState === Constants.recordingEvents.RECORDING_STARTED
             ? "Stop Recording"
             : recordingState === Constants.recordingEvents.RECORDING_STARTING
-            ? "Starting Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-            ? "Start Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-            ? "Stopping Recording"
-            : "Start Recording"
+              ? "Starting Recording"
+              : recordingState === Constants.recordingEvents.RECORDING_STOPPED
+                ? "Start Recording"
+                : recordingState ===
+                    Constants.recordingEvents.RECORDING_STOPPING
+                  ? "Stopping Recording"
+                  : "Start Recording"
         }
         lottieOption={isRecording ? defaultOptions : null}
         isRequestProcessing={isRequestProcessing}
@@ -85,7 +94,7 @@ export function TopBar({ topBarHeight }) {
           hlsState === Constants.hlsEvents.HLS_STARTING ||
           hlsState === Constants.hlsEvents.HLS_STOPPING,
       }),
-      [hlsState]
+      [hlsState],
     );
 
     const { type, priority, gridSize } = useMemo(
@@ -94,7 +103,7 @@ export function TopBar({ topBarHeight }) {
         priority: "PIN",
         gridSize: "12",
       }),
-      []
+      [],
     );
 
     const typeRef = useRef(type);
@@ -129,21 +138,29 @@ export function TopBar({ topBarHeight }) {
       width: 170,
     };
 
-    const _handleStartHLS = () => {
+    const _handleStartHLS = async () => {
       const type = typeRef.current;
       const priority = priorityRef.current;
       const gridSize = gridSizeRef.current;
 
       const layout = { type, priority, gridSize };
 
-      startHls({ layout, theme: "DARK" });
+      try {
+        await startHls({ layout, theme: "DARK" });
+      } catch (err) {
+        console.error("startHls failed", err);
+      }
     };
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isHls = isHlsRef.current;
 
       if (isHls) {
-        stopHls();
+        try {
+          await stopHls();
+        } catch (err) {
+          console.error("stopHls failed", err);
+        }
       } else {
         _handleStartHLS();
       }
@@ -157,12 +174,12 @@ export function TopBar({ topBarHeight }) {
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         Icon={LiveIcon}
         buttonText={
@@ -170,12 +187,12 @@ export function TopBar({ topBarHeight }) {
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         isFocused={isHls}
         lottieOption={isHls ? defaultOptions : null}
@@ -189,24 +206,24 @@ export function TopBar({ topBarHeight }) {
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop \nHLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting \nHLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start \nHLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping \nHLS"
-            : "Start \nHLS"
+              ? "Starting \nHLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start \nHLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping \nHLS"
+                  : "Start \nHLS"
         }
         buttonText={
           hlsState === Constants.hlsEvents.HLS_STARTED ||
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         lottieOption={isHls ? defaultOptions : null}
         isRequestProcessing={isRequestProcessing}

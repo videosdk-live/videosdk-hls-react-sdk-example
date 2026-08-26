@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
-import {
-  Constants,
-  createCameraVideoTrack,
-  useMeeting,
-  usePubSub,
-} from "@videosdk.live/react-sdk";
+import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
 import { PresenterView } from "../components/PresenterView";
 import { nameTructed, trimSnackBarText } from "../utils/helper";
@@ -26,12 +21,6 @@ import ModeListner from "./components/ModeListner";
 export function ILSContainer({
   onMeetingLeave,
   setIsMeetingLeft,
-  selectedMic,
-  selectedWebcam,
-  selectWebcamDeviceId,
-  setSelectWebcamDeviceId,
-  selectMicDeviceId,
-  setSelectMicDeviceId,
   micEnabled,
   webcamEnabled,
   meetingMode,
@@ -42,6 +31,8 @@ export function ILSContainer({
     useRaisedHandParticipants,
     sideBarMode,
   } = useMeetingAppContext();
+  const [selectWebcamDeviceId, setSelectWebcamDeviceId] = useState(null);
+  const [selectMicDeviceId, setSelectMicDeviceId] = useState(null);
   const bottomBarHeight = 60;
   const topBarHeight = 60;
 
@@ -71,12 +62,12 @@ export function ILSContainer({
   const sideBarContainerWidth = isXLDesktop
     ? 400
     : isLGDesktop
-    ? 360
-    : isTab
-    ? 320
-    : isMobile
-    ? 280
-    : 240;
+      ? 360
+      : isTab
+        ? 320
+        : isMobile
+          ? 280
+          : 240;
 
   useEffect(() => {
     containerRef.current?.offsetHeight &&
@@ -119,7 +110,7 @@ export function ILSContainer({
           draggable: true,
           progress: undefined,
           theme: "light",
-        }
+        },
       );
     }
   };
@@ -146,7 +137,7 @@ export function ILSContainer({
           draggable: true,
           progress: undefined,
           theme: "light",
-        }
+        },
       );
     }
 
@@ -158,12 +149,6 @@ export function ILSContainer({
       setAfterMeetingJoinedHLSState("STOPPED");
     }
   };
-
-  function onParticipantJoined(participant) {
-    // Change quality to low, med or high based on resolution
-    participant && participant.setQuality("high");
-    // console.log(" onParticipantJoined", participant);
-  }
 
   function onEntryResponded(participantId, name) {
     // console.log(" onEntryResponded", participantId, name);
@@ -179,38 +164,6 @@ export function ILSContainer({
     }
   }
 
-  async function onMeetingJoined() {
-    // console.log("onMeetingJoined");
-    const { changeWebcam, changeMic, muteMic, disableWebcam } =
-      mMeetingRef.current;
-
-    if (webcamEnabled && selectedWebcam.id) {
-      await new Promise((resolve) => {
-        disableWebcam();
-        setTimeout(async () => {
-          const track = await createCameraVideoTrack({
-            optimizationMode: "motion",
-            encoderConfig: "h540p_w960p",
-            facingMode: "environment",
-            cameraId: selectedWebcam.id,
-            multiStream: false,
-          });
-          changeWebcam(track);
-          resolve();
-        }, 500);
-      });
-    }
-
-    if (micEnabled && selectedMic.id) {
-      await new Promise((resolve) => {
-        muteMic();
-        setTimeout(() => {
-          changeMic(selectedMic.id);
-          resolve();
-        }, 500);
-      });
-    }
-  }
   function onMeetingLeft() {
     // console.log("onMeetingLeft");
     onMeetingLeave();
@@ -229,7 +182,7 @@ export function ILSContainer({
     new Audio(
       isCriticalError
         ? `https://static.videosdk.live/prebuilt/notification_critical_err.mp3`
-        : `https://static.videosdk.live/prebuilt/notification_err.mp3`
+        : `https://static.videosdk.live/prebuilt/notification_err.mp3`,
     ).play();
 
     setMeetingErrorVisible(true);
@@ -240,9 +193,19 @@ export function ILSContainer({
   };
 
   const mMeeting = useMeeting({
-    onParticipantJoined,
     onEntryResponded,
-    onMeetingJoined,
+    onMeetingStateChanged: ({ state }) => {
+      toast(`Meeting is in ${state} state`, {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
     onMeetingLeft,
     onError: _handleOnError,
     onRecordingStateChanged: _handleOnRecordingStateChanged,
@@ -264,7 +227,7 @@ export function ILSContainer({
       const isLocal = senderId === localParticipantId;
 
       new Audio(
-        `https://static.videosdk.live/prebuilt/notification.mp3`
+        `https://static.videosdk.live/prebuilt/notification.mp3`,
       ).play();
 
       toast(`${isLocal ? "You" : nameTructed(senderName, 15)} raised hand 🖐🏼`, {
@@ -292,12 +255,12 @@ export function ILSContainer({
 
       if (!isLocal) {
         new Audio(
-          `https://static.videosdk.live/prebuilt/notification.mp3`
+          `https://static.videosdk.live/prebuilt/notification.mp3`,
         ).play();
 
         toast(
           `${trimSnackBarText(
-            `${nameTructed(senderName, 15)} says: ${message}`
+            `${nameTructed(senderName, 15)} says: ${message}`,
           )}`,
           {
             position: "bottom-left",
@@ -308,7 +271,7 @@ export function ILSContainer({
             draggable: true,
             progress: undefined,
             theme: "light",
-          }
+          },
         );
       }
     },
@@ -366,8 +329,8 @@ export function ILSContainer({
                         (isTab || isMobile
                           ? 0
                           : typeof sideBarMode === "string"
-                          ? sideBarContainerWidth
-                          : 0),
+                            ? sideBarContainerWidth
+                            : 0),
                     }}
                   />
                 )}
@@ -376,8 +339,8 @@ export function ILSContainer({
                     meetingMode === Constants.modes.SIGNALLING_ONLY
                       ? containerHeight - bottomBarHeight
                       : isMobile || isTab
-                      ? containerHeight - bottomBarHeight
-                      : containerHeight - topBarHeight - bottomBarHeight
+                        ? containerHeight - bottomBarHeight
+                        : containerHeight - topBarHeight - bottomBarHeight
                   }
                   sideBarContainerWidth={sideBarContainerWidth}
                   meetingMode={meetingMode}

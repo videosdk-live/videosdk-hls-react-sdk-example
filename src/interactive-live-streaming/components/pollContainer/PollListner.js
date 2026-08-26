@@ -16,8 +16,8 @@ const PollListner = ({ pollId, setCreatedPolls }) => {
                   { optionId: message.optionId, participantId, timestamp },
                 ],
               }
-            : _poll
-        )
+            : _poll,
+        ),
       );
     },
     onOldMessagesReceived: (messages) => {
@@ -30,7 +30,7 @@ const PollListner = ({ pollId, setCreatedPolls }) => {
             participantId,
             timestamp,
           };
-        }
+        },
       );
 
       setCreatedPolls((s) => {
@@ -65,7 +65,7 @@ const PollsListner = () => {
       ]);
 
       new Audio(
-        `https://static.videosdk.live/prebuilt/notification.mp3`
+        `https://static.videosdk.live/prebuilt/notification.mp3`,
       ).play();
       toast("New Poll Asked 📊", {
         position: "bottom-left",
@@ -84,7 +84,7 @@ const PollsListner = () => {
         ...s,
         ...messages
           .sort((a, b) =>
-            a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0
+            a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0,
           )
           .map(({ message, timestamp }) => ({
             ...message,
@@ -146,8 +146,8 @@ const PollsListner = () => {
           (_poll) =>
             messages.findIndex(({ message }) => {
               return message.pollId === _poll.id;
-            }) === -1
-        )
+            }) === -1,
+        ),
       );
     },
   });

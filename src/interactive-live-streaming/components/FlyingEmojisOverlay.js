@@ -56,7 +56,7 @@ const FlyingEmojisOverlay = ({}) => {
         handleRemoveFlyingEmoji(e.target);
       });
     },
-    [handleRemoveFlyingEmoji]
+    [handleRemoveFlyingEmoji],
   );
 
   const handleReceiveFlyingEmoji = useCallback(
@@ -68,18 +68,22 @@ const FlyingEmojisOverlay = ({}) => {
       // console.log(`🚨 New emoji message received: ${message}`);
       handleDisplayFlyingEmoji(message);
     },
-    [handleDisplayFlyingEmoji]
+    [handleDisplayFlyingEmoji],
   );
 
   // Listen to window events to show local user emojis and send the emoji to all participants on the call
   useEffect(() => {
-    function handleSendFlyingEmoji(e) {
+    async function handleSendFlyingEmoji(e) {
       const { emoji } = e.detail;
       // console.log(`⭐ Sending flying emoji: ${emoji}`);
 
       if (emoji) {
         // pubsubDataRef.current.publish(emoji);
-        pubsubData.publish(emoji);
+        try {
+          await pubsubData.publish(emoji);
+        } catch (err) {
+          console.error("publish failed", err);
+        }
       }
     }
 
@@ -92,9 +96,9 @@ const FlyingEmojisOverlay = ({}) => {
   useEffect(
     () => () =>
       overlayRef.current?.childNodes.forEach((n) =>
-        n.removeEventListener("animationend", handleRemoveFlyingEmoji)
+        n.removeEventListener("animationend", handleRemoveFlyingEmoji),
       ),
-    [handleRemoveFlyingEmoji]
+    [handleRemoveFlyingEmoji],
   );
 
   return <div className="flying-emojis" ref={overlayRef}></div>;

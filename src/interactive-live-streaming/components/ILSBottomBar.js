@@ -50,8 +50,12 @@ export function ILSBottomBar({
   const { sideBarMode, setSideBarMode } = useMeetingAppContext();
   const RaiseHandBTN = ({ isMobile, isTab }) => {
     const { publish } = usePubSub("RAISE_HAND");
-    const RaiseHand = () => {
-      publish("Raise Hand");
+    const RaiseHand = async () => {
+      try {
+        await publish("Raise Hand");
+      } catch (err) {
+        console.error("publish failed", err);
+      }
     };
 
     return isMobile || isTab ? (
@@ -97,16 +101,24 @@ export function ILSBottomBar({
           recordingState === Constants.recordingEvents.RECORDING_STARTING ||
           recordingState === Constants.recordingEvents.RECORDING_STOPPING,
       }),
-      [recordingState]
+      [recordingState],
     );
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isRecording = isRecordingRef.current;
 
       if (isRecording) {
-        stopRecording();
+        try {
+          await stopRecording();
+        } catch (err) {
+          console.error("stopRecording failed", err);
+        }
       } else {
-        startRecording();
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error("startRecording failed", err);
+        }
       }
     };
 
@@ -119,12 +131,13 @@ export function ILSBottomBar({
           recordingState === Constants.recordingEvents.RECORDING_STARTED
             ? "Stop Recording"
             : recordingState === Constants.recordingEvents.RECORDING_STARTING
-            ? "Starting Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-            ? "Start Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-            ? "Stopping Recording"
-            : "Start Recording"
+              ? "Starting Recording"
+              : recordingState === Constants.recordingEvents.RECORDING_STOPPED
+                ? "Start Recording"
+                : recordingState ===
+                    Constants.recordingEvents.RECORDING_STOPPING
+                  ? "Stopping Recording"
+                  : "Start Recording"
         }
         lottieOption={isRecording ? defaultOptions : null}
         isRequestProcessing={isRequestProcessing}
@@ -139,7 +152,12 @@ export function ILSBottomBar({
     const changeMic = mMeeting?.changeMic;
 
     const getMics = async (mGetMics) => {
-      const mics = await mGetMics();
+      let mics;
+      try {
+        mics = await mGetMics();
+      } catch (err) {
+        console.error("getMics failed", err);
+      }
 
       mics && mics?.length && setMics(mics);
     };
@@ -162,8 +180,12 @@ export function ILSBottomBar({
       <>
         <OutlinedButton
           Icon={localMicOn ? MicOnIcon : MicOffIcon}
-          onClick={() => {
-            mMeeting.toggleMic();
+          onClick={async () => {
+            try {
+              await mMeeting.toggleMic();
+            } catch (err) {
+              console.error("toggleMic failed", err);
+            }
           }}
           bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
           borderColor={localMicOn && "#ffffff33"}
@@ -176,24 +198,23 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <Popover.Button
+                        className="flex items-center justify-center mt-1 mr-1"
+                        onClick={() => {
+                          getMics(mMeeting.getMics);
+                        }}
+                      >
                         <div
                           ref={btnRef}
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getMics(mMeeting.getMics);
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: mMeeting.localMicOn ? "white" : "black",
                             }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: mMeeting.localMicOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
+                          />
                         </div>
                       </Popover.Button>
                       <Transition
@@ -217,6 +238,7 @@ export function ILSBottomBar({
                                 <div className="flex flex-col">
                                   {mics.map(({ deviceId, label }, index) => (
                                     <div
+                                      key={`mics_${deviceId}`}
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectMicDeviceId &&
                                         "bg-gray-150"
@@ -227,10 +249,16 @@ export function ILSBottomBar({
                                           deviceId === selectMicDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`mics_${deviceId}`}
-                                        onClick={() => {
+                                        onClick={async () => {
                                           setSelectMicDeviceId(deviceId);
-                                          changeMic(deviceId);
+                                          try {
+                                            await changeMic(deviceId);
+                                          } catch (err) {
+                                            console.error(
+                                              "changeMic failed",
+                                              err,
+                                            );
+                                          }
                                           close();
                                         }}
                                       >
@@ -276,7 +304,12 @@ export function ILSBottomBar({
     const changeWebcam = mMeeting?.changeWebcam;
 
     const getWebcams = async (mGetWebcams) => {
-      const webcams = await mGetWebcams();
+      let webcams;
+      try {
+        webcams = await mGetWebcams();
+      } catch (err) {
+        console.error("getWebcams failed", err);
+      }
 
       webcams && webcams?.length && setWebcams(webcams);
     };
@@ -300,17 +333,11 @@ export function ILSBottomBar({
         <OutlinedButton
           Icon={localWebcamOn ? WebcamOnIcon : WebcamOffIcon}
           onClick={async () => {
-            let track;
-            if (!localWebcamOn) {
-              track = await createCameraVideoTrack({
-                optimizationMode: "motion",
-                encoderConfig: "h540p_w960p",
-                facingMode: "environment",
-                multiStream: false,
-                cameraId: selectWebcamDeviceId,
-              });
+            try {
+              await mMeeting.toggleWebcam();
+            } catch (err) {
+              console.error("toggleWebcam failed", err);
             }
-            mMeeting.toggleWebcam(track);
           }}
           bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
           borderColor={localWebcamOn && "#ffffff33"}
@@ -323,24 +350,23 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <Popover.Button
+                        className="flex items-center justify-center mt-1 mr-1"
+                        onClick={() => {
+                          getWebcams(mMeeting?.getWebcams);
+                        }}
+                      >
                         <div
                           ref={btnRef}
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getWebcams(mMeeting?.getWebcams);
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: localWebcamOn ? "white" : "black",
                             }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: localWebcamOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
+                          />
                         </div>
                       </Popover.Button>
                       <Transition
@@ -364,6 +390,7 @@ export function ILSBottomBar({
                                 <div className="flex flex-col">
                                   {webcams.map(({ deviceId, label }, index) => (
                                     <div
+                                      key={`output_webcams_${deviceId}`}
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectWebcamDeviceId &&
                                         "bg-gray-150"
@@ -374,18 +401,24 @@ export function ILSBottomBar({
                                           deviceId === selectWebcamDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`output_webcams_${deviceId}`}
                                         onClick={async () => {
                                           setSelectWebcamDeviceId(deviceId);
-                                          const track =
-                                            await createCameraVideoTrack({
-                                              optimizationMode: "motion",
-                                              encoderConfig: "h540p_w960p",
-                                              facingMode: "environment",
-                                              multiStream: false,
-                                              cameraId: deviceId,
-                                            });
-                                          changeWebcam(track);
+                                          try {
+                                            const track =
+                                              await createCameraVideoTrack({
+                                                optimizationMode: "motion",
+                                                encoderConfig: "h540p_w960p",
+                                                facingMode: "environment",
+                                                multiStream: false,
+                                                cameraId: deviceId,
+                                              });
+                                            await changeWebcam(track);
+                                          } catch (err) {
+                                            console.error(
+                                              "changeWebcam failed",
+                                              err,
+                                            );
+                                          }
                                           close();
                                         }}
                                       >
@@ -443,8 +476,12 @@ export function ILSBottomBar({
         }
         isFocused={localScreenShareOn}
         Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
+        onClick={async () => {
+          try {
+            await toggleScreenShare();
+          } catch (err) {
+            console.error("toggleScreenShare failed", err);
+          }
         }}
         disabled={
           presenterId
@@ -452,15 +489,19 @@ export function ILSBottomBar({
               ? false
               : true
             : isMobile
-            ? true
-            : false
+              ? true
+              : false
         }
       />
     ) : (
       <OutlinedButton
         Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
+        onClick={async () => {
+          try {
+            await toggleScreenShare();
+          } catch (err) {
+            console.error("toggleScreenShare failed", err);
+          }
         }}
         isFocused={localScreenShareOn}
         tooltip={
@@ -482,8 +523,12 @@ export function ILSBottomBar({
       <OutlinedButton
         Icon={EndIcon}
         bgColor="bg-red-150"
-        onClick={() => {
-          leave();
+        onClick={async () => {
+          try {
+            await leave();
+          } catch (err) {
+            console.error("leave failed", err);
+          }
           setIsMeetingLeft(true);
         }}
         tooltip="Leave Meeting"
@@ -500,7 +545,7 @@ export function ILSBottomBar({
         isFocused={sideBarMode === sideBarModes.CHAT}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+            s === sideBarModes.CHAT ? null : sideBarModes.CHAT,
           );
         }}
       />
@@ -509,7 +554,7 @@ export function ILSBottomBar({
         Icon={ChatIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+            s === sideBarModes.CHAT ? null : sideBarModes.CHAT,
           );
         }}
         isFocused={sideBarMode === "CHAT"}
@@ -529,7 +574,7 @@ export function ILSBottomBar({
         Icon={ParticipantsIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS,
           );
         }}
         badge={`${new Map(participants)?.size}`}
@@ -540,7 +585,7 @@ export function ILSBottomBar({
         Icon={ParticipantsIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS,
           );
         }}
         isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
@@ -561,7 +606,7 @@ export function ILSBottomBar({
         Icon={PollIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.POLLS ? null : sideBarModes.POLLS
+            s === sideBarModes.POLLS ? null : sideBarModes.POLLS,
           );
         }}
       />
@@ -570,7 +615,7 @@ export function ILSBottomBar({
         Icon={PollIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.POLLS ? null : sideBarModes.POLLS
+            s === sideBarModes.POLLS ? null : sideBarModes.POLLS,
           );
         }}
         isFocused={sideBarMode === sideBarModes.POLLS}
@@ -590,7 +635,7 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_STARTING ||
           hlsState === Constants.hlsEvents.HLS_STOPPING,
       }),
-      [hlsState]
+      [hlsState],
     );
 
     const { type, priority, gridSize } = useMemo(
@@ -599,7 +644,7 @@ export function ILSBottomBar({
         priority: "PIN",
         gridSize: "12",
       }),
-      []
+      [],
     );
 
     const typeRef = useRef(type);
@@ -634,21 +679,29 @@ export function ILSBottomBar({
       width: 170,
     };
 
-    const _handleStartHLS = () => {
+    const _handleStartHLS = async () => {
       const type = typeRef.current;
       const priority = priorityRef.current;
       const gridSize = gridSizeRef.current;
 
       const layout = { type, priority, gridSize };
 
-      startHls({ layout, theme: "DARK" });
+      try {
+        await startHls({ layout, theme: "DARK" });
+      } catch (err) {
+        console.error("startHls failed", err);
+      }
     };
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isHls = isHlsRef.current;
 
       if (isHls) {
-        stopHls();
+        try {
+          await stopHls();
+        } catch (err) {
+          console.error("stopHls failed", err);
+        }
       } else {
         _handleStartHLS();
       }
@@ -662,12 +715,12 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         Icon={LiveIcon}
         buttonText={
@@ -675,12 +728,12 @@ export function ILSBottomBar({
           hlsState === Constants.hlsEvents.HLS_PLAYABLE
             ? "Stop HLS"
             : hlsState === Constants.hlsEvents.HLS_STARTING
-            ? "Starting HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPED
-            ? "Start HLS"
-            : hlsState === Constants.hlsEvents.HLS_STOPPING
-            ? "Stopping HLS"
-            : "Start HLS"
+              ? "Starting HLS"
+              : hlsState === Constants.hlsEvents.HLS_STOPPED
+                ? "Start HLS"
+                : hlsState === Constants.hlsEvents.HLS_STOPPING
+                  ? "Stopping HLS"
+                  : "Start HLS"
         }
         isFocused={isHls}
         lottieOption={isHls ? defaultOptions : null}
@@ -704,7 +757,7 @@ export function ILSBottomBar({
     function sendEmoji(emoji) {
       // Dispatch custom event here so the local user can see their own emoji
       window.dispatchEvent(
-        new CustomEvent("reaction_added", { detail: { emoji } })
+        new CustomEvent("reaction_added", { detail: { emoji } }),
       );
       handleCloseMenu();
     }
@@ -723,7 +776,7 @@ export function ILSBottomBar({
         <Popover className="relative">
           {({ open }) => (
             <>
-              <Popover.Button>
+              <Popover.Button as="div">
                 <OutlinedButton
                   Icon={ReactionIcon}
                   onClick={(e) => {
@@ -749,9 +802,13 @@ export function ILSBottomBar({
                         <button
                           key={`reaction-${emojiName}`}
                           className="mx-2"
-                          onClick={() => {
+                          onClick={async () => {
                             sendEmoji(emojiName);
-                            publish(emojiName);
+                            try {
+                              await publish(emojiName);
+                            } catch (err) {
+                              console.error("publish failed", err);
+                            }
                           }}
                         >
                           <p className="text-3xl">{emoji}</p>
@@ -778,7 +835,7 @@ export function ILSBottomBar({
         Icon={ECommerceIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE
+            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE,
           );
         }}
       />
@@ -787,7 +844,7 @@ export function ILSBottomBar({
         Icon={ECommerceIcon}
         onClick={() => {
           setSideBarMode((s) =>
-            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE
+            s === sideBarModes.ECOMMERCE ? null : sideBarModes.ECOMMERCE,
           );
         }}
         isFocused={sideBarMode === sideBarModes.ECOMMERCE}
@@ -854,7 +911,7 @@ export function ILSBottomBar({
       REACTION: "REACTION",
       ECOMMERCE: "ECOMMERCE",
     }),
-    []
+    [],
   );
 
   const otherFeatures = [
@@ -924,6 +981,7 @@ export function ILSBottomBar({
                       {otherFeatures.map(({ icon }) => {
                         return (
                           <div
+                            key={`bottom-bar-${icon}`}
                             className={`grid items-center justify-center ${
                               icon === BottomBarButtonTypes.MEETING_ID_COPY
                                 ? "col-span-7 sm:col-span-5 md:col-span-3"
@@ -955,9 +1013,11 @@ export function ILSBottomBar({
                             ) : icon === BottomBarButtonTypes.POLL ? (
                               <PollBTN isMobile={isMobile} isTab={isTab} />
                             ) : icon === BottomBarButtonTypes.REACTION &&
-                              meetingMode === Constants.modes.SIGNALLING_ONLY ? (
+                              meetingMode ===
+                                Constants.modes.SIGNALLING_ONLY ? (
                               <ReactionBTN isMobile={isMobile} isTab={isTab} />
-                            ) : meetingMode === Constants.modes.SIGNALLING_ONLY ? (
+                            ) : meetingMode ===
+                              Constants.modes.SIGNALLING_ONLY ? (
                               <ECommerceBTN isMobile={isMobile} isTab={isTab} />
                             ) : null}
                           </div>

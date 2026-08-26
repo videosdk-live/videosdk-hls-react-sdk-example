@@ -37,23 +37,23 @@ export const CornerDisplayName = ({
 
   const statsBoxHeight = useMemo(
     () => statsBoxHeightRef?.offsetHeight,
-    [statsBoxHeightRef]
+    [statsBoxHeightRef],
   );
 
   const statsBoxWidth = useMemo(
     () => statsBoxWidthRef?.offsetWidth,
-    [statsBoxWidthRef]
+    [statsBoxWidthRef],
   );
 
   const analyzerSize = isXLDesktop
     ? 32
     : isLGDesktop
-    ? 28
-    : isTab
-    ? 24
-    : isMobile
-    ? 20
-    : 18;
+      ? 28
+      : isTab
+        ? 24
+        : isMobile
+          ? 20
+          : 18;
 
   const show = useMemo(() => mouseOver, [mouseOver]);
 
@@ -74,17 +74,23 @@ export const CornerDisplayName = ({
     let stats = [];
     let audioStats = [];
     let videoStats = [];
-    if (isPresenting) {
-      stats = await getShareStats();
-    } else if (webcamStream) {
-      stats = await getVideoStats();
-    } else if (micStream) {
-      stats = await getAudioStats();
-    }
+    try {
+      if (isPresenting) {
+        stats = await getShareStats();
+      } else if (webcamStream) {
+        stats = await getVideoStats();
+      } else if (micStream) {
+        stats = await getAudioStats();
+      }
 
-    if (webcamStream || micStream || isPresenting) {
-      videoStats = isPresenting ? await getShareStats() : await getVideoStats();
-      audioStats = isPresenting ? [] : await getAudioStats();
+      if (webcamStream || micStream || isPresenting) {
+        videoStats = isPresenting
+          ? await getShareStats()
+          : await getVideoStats();
+        audioStats = isPresenting ? [] : await getAudioStats();
+      }
+    } catch (err) {
+      console.error("getShareStats/getVideoStats/getAudioStats failed", err);
     }
 
     // setScore(stats?.score);
@@ -124,14 +130,14 @@ export const CornerDisplayName = ({
       audio: audioStats
         ? audioStats[0]?.packetsLost
           ? `${parseFloat(
-              (audioStats[0]?.packetsLost * 100) / audioStats[0]?.totalPackets
+              (audioStats[0]?.packetsLost * 100) / audioStats[0]?.totalPackets,
             ).toFixed(2)}%`
           : "-"
         : "-",
       video: videoStats
         ? videoStats[0]?.packetsLost
           ? `${parseFloat(
-              (videoStats[0]?.packetsLost * 100) / videoStats[0]?.totalPackets
+              (videoStats[0]?.packetsLost * 100) / videoStats[0]?.totalPackets,
             ).toFixed(2)}%`
           : "-"
         : "-",
@@ -241,8 +247,8 @@ export const CornerDisplayName = ({
               ? `You are presenting`
               : `${nameTructed(displayName, 15)} is presenting`
             : isLocal
-            ? "You"
-            : nameTructed(displayName, 26)}
+              ? "You"
+              : nameTructed(displayName, 26)}
         </p>
       </div>
 
@@ -264,8 +270,8 @@ export const CornerDisplayName = ({
                         score > 7
                           ? "#3BA55D"
                           : score > 4
-                          ? "#faa713"
-                          : "#FF5D5D",
+                            ? "#faa713"
+                            : "#FF5D5D",
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -325,16 +331,16 @@ export const CornerDisplayName = ({
                                   score > 7
                                     ? "#3BA55D"
                                     : score > 4
-                                    ? "#faa713"
-                                    : "#FF5D5D",
+                                      ? "#faa713"
+                                      : "#FF5D5D",
                               }}
                             >
                               <p className="text-sm text-white font-semibold">{`Quality Score : ${
                                 score > 7
                                   ? "Good"
                                   : score > 4
-                                  ? "Average"
-                                  : "Poor"
+                                    ? "Average"
+                                    : "Poor"
                               }`}</p>
 
                               <button
@@ -355,6 +361,7 @@ export const CornerDisplayName = ({
                                 {qualityStateArray.map((item, index) => {
                                   return (
                                     <div
+                                      key={`quality-row-${index}`}
                                       className="flex"
                                       style={{
                                         borderBottom:
@@ -397,7 +404,7 @@ export const CornerDisplayName = ({
                             </div>
                           </div>
                         </div>,
-                        document.body
+                        document.body,
                       )}
                     </Popover.Panel>
                   </Transition>
@@ -421,7 +428,18 @@ export function ParticipantView({ participantId }) {
     isLocal,
     mode,
     isActiveSpeaker,
-  } = useParticipant(participantId);
+    setQuality,
+  } = useParticipant(participantId, {
+    onStreamEnabled: (stream) => {
+      if (stream.kind === "video" && !isLocal) {
+        try {
+          setQuality("high");
+        } catch (err) {
+          console.error("setQuality failed", err);
+        }
+      }
+    },
+  });
 
   const micRef = useRef(null);
   const [mouseOver, setMouseOver] = useState(false);
@@ -435,7 +453,7 @@ export function ParticipantView({ participantId }) {
         micRef.current
           .play()
           .catch((error) =>
-            console.error("videoElem.current.play() failed", error)
+            console.error("videoElem.current.play() failed", error),
           );
       } else {
         micRef.current.srcObject = null;

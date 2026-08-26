@@ -55,16 +55,20 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                 } left-full z-10 mt-1 -translate-x-full shadow-xl transform py-2.5  sm:px-0  bg-gray-750 rounded-sm hover:cursor-pointer`}
               >
                 <div
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation();
-                    publish(
-                      JSON.stringify({
-                        mode:
-                          participantMode === Constants.modes.SEND_AND_RECV
-                            ? Constants.modes.SIGNALLING_ONLY
-                            : Constants.modes.SEND_AND_RECV,
-                      })
-                    );
+                    try {
+                      await publish(
+                        JSON.stringify({
+                          mode:
+                            participantMode === Constants.modes.SEND_AND_RECV
+                              ? Constants.modes.SIGNALLING_ONLY
+                              : Constants.modes.SEND_AND_RECV,
+                        }),
+                      );
+                    } catch (err) {
+                      console.error("publish failed", err);
+                    }
                     close();
                   }}
                   className=""
